@@ -1,0 +1,47 @@
+﻿    @{
+        ViewData["Title"] = "Login Page";
+    }
+    <form asp-controller="Login" asp-action="Login" method="post">
+    <div class="contentLogin container-fluid">
+        <div class="container backgroundLogin">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <img class="imgLogin" src="/image/Login.png" alt="Ảnh mẫu" />
+                </div>
+                <div class="col-lg-6 col-md-6 col-12">
+                    <div class="row loginForm">
+                        <div class="col-lg-2"></div>
+                        <div class="col-lg-8">
+                            <h1>LOGIN</h1>
+                            <p class="pAccount">Account Name</p>
+                            <input name="username" type="text"
+                                   placeholder="Please enter your account's name" />
+                            <p class="pAccount">Password</p>
+                            <input name="password" type="password"
+                                   placeholder="Please enter your password" />
+                            <button class="btnSubmit">Submit</button>
+                            <p class="createAccount">
+                                Do not have an account? <a href="#">Create now</a>
+                            </p>
+                            <p class="createAccount">
+                                <a href="#">Forgot your password?</a>
+                            </p>
+                            <a class="forgotPassword" href="#"></a>
+                            <p class="or">Or</p>
+                            <div class="btnLoginAPI">
+                                <button>
+                                    <i class="uil uil-google"></i>
+                                    <p>Sign In with Google</p>
+                                </button>
+                                <button>
+                                    <i class="uil uil-facebook"></i><p>Sign In with Facebook</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>

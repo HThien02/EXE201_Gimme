@@ -1,0 +1,265 @@
+﻿:root {
+    --pink1: #F8E8EE;
+    --pink2: #FDCEDF;
+    --pink3: #FF90BC;
+    --pink4: #FF005D;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FDCEDF;
+}
+
+.header ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .header ul li {
+        display: inline;
+        margin-right: 10px;
+    }
+
+.header a {
+    font-size: 1.1em;
+    font-weight: 400;
+    text-decoration: none;
+    color: #000000;
+}
+
+.header button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+.header ul li:last-child {
+    margin-right: 0;
+}
+
+.header button {
+    margin-left: 10px;
+}
+
+    .header button:first-child {
+        background-color: #ffffff;
+        padding: 2px 10px;
+        border-radius: 5px;
+        border: 1px solid var(--pink4);
+        transition: transform 0.5s;
+    }
+
+        .header button:first-child:hover {
+            transform: scale(1.1);
+            border: 1px solid var(--pink3);
+        }
+
+    .header button:last-child {
+        background-color: var(--pink3);
+        padding: 2px 10px;
+        border-radius: 5px;
+        border: 1px solid #ffffff;
+        transition: transform 0.5s;
+    }
+
+        .header button:last-child:hover {
+            transform: scale(1.1);
+            border: 1px solid var(--pink4);
+        }
+
+.navbar {
+    border-width: 0px 0px 1px 0px; /* Bạn muốn có độ dày ở dưới và bên phải */
+    border-style: solid;
+    border-color: #ffffff; /* Màu trắng */
+}
+
+.header .imgHeader {
+    width: 50%;
+}
+
+
+/*===============================HOME PAGE===============================*/
+
+.body {
+    width: 1920px;
+    height: 1080px;
+}
+
+.content {
+    background-color: var(--pink1);
+    position: relative;
+}
+
+.slogan1 {
+    font-size: 10em;
+    font-family: Sahitya-Rengular !important;
+    margin-left: 100px;
+    padding-top: 100px;
+}
+
+.slogan2 {
+    font-size: 10em;
+    font-family: Sahitya-Rengular !important;
+    margin-left: 100px;
+}
+
+.title {
+    width: 60%;
+    margin-left: 100px;
+}
+
+.btn_start {
+    margin: 50px 0px calc(451px - 60.5px - 150px) 100px;
+    color: #ffffff;
+    background-color: var(--pink3);
+    border: 1px solid #ffffff;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: transform 0.5s;
+}
+
+    .btn_start:hover {
+        transform: scale(1.1);
+        border: 1px solid var(--pink4);
+    }
+
+.footer {
+    height: 150px;
+    background-color: var(--pink3);
+}
+
+.cardList {
+    position: absolute;
+    top: 80%;
+    left: 100px;
+}
+
+.card {
+    display: inline-block;
+    width: 220px;
+    height: 180px;
+    margin: 0px 40px 0px 0px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 10px 0px rgba(0, 10, 10, 0.5);
+}
+
+.cardTittle {
+    margin: 20px 0px 0px 20px;
+}
+
+    .cardTittle i {
+        color: var(--pink3);
+        font-size: 1.5em;
+    }
+
+/*======================================LOGIN PAGE==============================*/
+.contentLogin {
+    height: calc(1080px + 190px - 60.5px);
+    background-color: var(--pink1);
+}
+
+.backgroundLogin {
+    background-color: #ffffff;
+}
+
+.loginForm {
+    text-align: center;
+    margin: 150px 0px 0px 0px;
+}
+
+    .loginForm h1 {
+        margin: 0px 0px 50px 0px;
+    }
+
+    .loginForm .pAccount {
+        width: 100%;
+        text-align: left !important;
+        margin: 20px 0px 0px 0px;
+    }
+
+input {
+    width: 100%;
+    padding: 8px 0px;
+    border-radius: 0px 10px 10px 0px;
+    border: none;
+    background-color: rgba(176, 186, 195, 0.4);
+}
+
+    input:placeholder-shown {
+        padding-left: 20px;
+    }
+
+.btnSubmit {
+    margin: 50px 0px 20px 0px;
+    padding: 5px 75px;
+    background-color: var(--pink3);
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.5s;
+    color: #ffffff;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+    .btnSubmit:hover {
+        transform: scale(1.1);
+        border: 1px solid var(--pink4);
+    }
+
+.createAccount a {
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--pink4);
+}
+
+    .createAccount a:hover {
+        color: blue;
+    }
+
+.or {
+    margin-top: -10px;
+    font-size: 1.3em;
+    font-weight: 400;
+    color: rgba(176, 186, 195, 0.8);
+}
+
+.btnLoginAPI {
+    width: 100%;
+    display: flex;
+    text-align: center;
+    gap: 4%;
+}
+
+    .btnLoginAPI button {
+        width: 48%;
+        display: flex;
+        border-radius: 0px 15px 15px 0px;
+        background-color: #ffffff;
+        border: 1px solid grey;
+        font-size: 1em;
+        transition: transform 0.5s;
+    }
+
+        .btnLoginAPI button:hover {
+            transform: scale(1.1);
+        }
+
+.imgLogin {
+    width: 90%;
+    margin-left: 15%;
+}
+
+.container {
+    top: 15%;
+    width: 50%;
+    left: 25%;
+    position: absolute;
+    box-shadow: 5px 5px 10px 0px rgba(0, 10, 10, 0.5);
+    border-radius: 20px;
+}
