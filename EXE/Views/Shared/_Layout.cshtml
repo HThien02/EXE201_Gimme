@@ -15,13 +15,30 @@
                     <a asp-controller="Home" asp-action="Index"><img class="imgHeader" src="~/image/Logo.png" alt="Logo" /></a>
                 </ul>
                 <ul>
-                    <li><a asp-controller="Home" asp-action="Index">Home Page</a></li>
-                    <li><a href="#">Service</a></li>
-                    <li><a href="#">About Us</a></li>
+                    <li><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <li><a href="#">Dịch vụ</a></li>
+                    <a href="https://www.instagram.com/gimme.store.dn?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">
+                        <img class="iconSocial" src="~/image/ins.png" alt="Logo" />
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61559886992965" target="_blank" rel="noopener noreferrer">
+                        <img class="iconSocial" src="~/image/face.png" alt="Logo" />
+                    </a>
                 </ul>
                 <ul>
-                    <button><a class="btn1" asp-controller="Login" asp-action="Index">Login</a></button>
-                    <button><a class="btn2" href="#">Sign In</a></button>
+                    @{
+                        var userSession = Context.Session.GetString("UserSession");
+                        if (!string.IsNullOrEmpty(userSession))
+                        {
+                            <button><img class="imgLanguage" src="~/image/iconChangeLanguage.png"></img></button>
+                            <button><a class="btn1">Xin chào, @userSession</a></button>
+                            <button><a class="btn2" asp-controller="Login" asp-action="Logout">Đăng xuất</a></button>
+                        } else
+                        {
+                            <button><img class="imgLanguage" src="~/image/iconChangeLanguage.png"></img></button>
+                            <button><a class="btn1" asp-controller="Login" asp-action="Index">Đăng nhập</a></button>
+                            <button><a class="btn2" asp-controller="Login" asp-action="Register">Đăng ký</a></button>
+                        }
+                    }
                 </ul>
             </div>
         </nav>

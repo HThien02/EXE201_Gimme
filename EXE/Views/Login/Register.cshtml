@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Register Page";
+}
+<form asp-controller="Login" asp-action="Register" method="post">
+<div class="contentLogin container-fluid">
+    <div class="container containerForm backgroundLogin">
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <img class="imgLogin" src="/image/Login.png" alt="Ảnh mẫu" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="row loginForm">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        <h1>Gimme Store</h1>
+                            <p class="pAccount">Gmail</p>
+                            <input class="ipText"
+                                   name="gmail"
+                                   type="text"
+                                   placeholder="Hãy nhập gmail tại đây" />
+                        <p class="pAccount">Tên tài khoản</p>
+                        <input class="ipText"
+                            name="username"
+                               type="text"
+                               placeholder="Hãy nhập tên tài khoản tại đây" />
+                        <p class="pAccount">Mật khẩu</p>
+                        <input class="ipText"
+                            name="password"
+                               type="password"
+                               placeholder="Hãy nhập mật khẩu tại đây" />
+@*                         <p class="pAccount">Password</p>
+                        <input class="ipText"
+                               type="password"
+                               placeholder="Please repeats your password" /> *@
+                        <button class="btnSubmit">Đăng ký</button>
+                        <p class="createAccount">
+                            Bạn đã có tài khoản? <a asp-action="Index" asp-controller="Login">Đăng nhập</a>
+                        </p>
+                        <p class="createAccount">
+                            <a asp-action="Forgot" asp-controller="Login">Quên mật khẩu?</a>
+                        </p>
+                      
+                    </div>
+                    <div class="col-lg-2"></div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+</form>

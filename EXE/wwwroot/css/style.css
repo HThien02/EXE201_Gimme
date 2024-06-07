@@ -5,7 +5,41 @@
     --pink4: #FF005D;
 }
 
-.navbar {
+footer {
+    flex-shrink: 0;
+}
+body {
+    min-height: 100vh;
+}
+
+
+@font-face {
+    font-family: 'Kanit';
+    src: url('/fonts/Kanit/Kanit-Regular.ttf') format('truetype'), url('/fonts/Kanit/Kanit-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'DMSeriText';
+    src: url('/fonts/DM_Serif_Text/DMSerifText-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Abril_Fatface';
+    src: url('/fonts/Abril_Fatface/AbrilFatface-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Quicksand';
+    src: url('/fonts/Quicksand/Quicksand-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+    .navbar {
+        font-family: Quicksand;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,10 +56,13 @@
         display: inline;
         margin-right: 10px;
     }
-
+.iconSocial {
+    width: 30px;
+    margin-right: 20px;
+}
 .header a {
     font-size: 1.1em;
-    font-weight: 400;
+    font-weight: 600;
     text-decoration: none;
     color: #000000;
 }
@@ -37,7 +74,9 @@
     padding: 0;
     margin: 0;
 }
-
+.imgLanguage {
+    width: 25px;
+}
 .header ul li:last-child {
     margin-right: 0;
 }
@@ -46,7 +85,7 @@
     margin-left: 10px;
 }
 
-    .header button:first-child {
+    .header button:nth-child(2) {
         background-color: #ffffff;
         padding: 2px 10px;
         border-radius: 5px;
@@ -54,10 +93,10 @@
         transition: transform 0.5s;
     }
 
-        .header button:first-child:hover {
-            transform: scale(1.1);
-            border: 1px solid var(--pink3);
-        }
+.header button:nth-child(2):hover {
+    transform: scale(1.1);
+    border: 1px solid var(--pink3);
+}
 
     .header button:last-child {
         background-color: var(--pink3);
@@ -96,15 +135,15 @@
 }
 
 .slogan1 {
-    font-size: 10em;
-    font-family: Sahitya-Rengular !important;
+    font-family: 'Abril_Fatface', Abril_Fatface;
+    font-size: 8em;
     margin-left: 100px;
-    padding-top: 100px;
+    padding-top: 20px;
 }
 
 .slogan2 {
-    font-size: 10em;
-    font-family: Sahitya-Rengular !important;
+    font-size: 8em;
+    font-family: 'Abril_Fatface', Abril_Fatface;
     margin-left: 100px;
 }
 
@@ -114,7 +153,7 @@
 }
 
 .btn_start {
-    margin: 50px 0px calc(451px - 60.5px - 150px) 100px;
+    margin: 50px 0px calc(351px - 60.5px - 150px) 100px;
     color: #ffffff;
     background-color: var(--pink3);
     border: 1px solid #ffffff;
@@ -128,11 +167,15 @@
         transform: scale(1.1);
         border: 1px solid var(--pink4);
     }
+    .btn_start a {
+        text-decoration:none;
+        color: #ffffff;
+    }
 
-.footer {
-    height: 150px;
-    background-color: var(--pink3);
-}
+    .footer {
+        height: 100px;
+        background-color: var(--pink3);
+    }
 
 .cardList {
     position: absolute;
@@ -158,9 +201,12 @@
         font-size: 1.5em;
     }
 
+
+
 /*======================================LOGIN PAGE==============================*/
 .contentLogin {
-    height: calc(1080px + 190px - 60.5px);
+    font-family: Quicksand;
+    height: calc(780px + 190px - 60.5px);
     background-color: var(--pink1);
 }
 
@@ -175,9 +221,11 @@
 
     .loginForm h1 {
         margin: 0px 0px 50px 0px;
+        font-family:Abril_Fatface ;
     }
 
     .loginForm .pAccount {
+        font-weight: 600;
         width: 100%;
         text-align: left !important;
         margin: 20px 0px 0px 0px;
@@ -186,7 +234,7 @@
 input {
     width: 100%;
     padding: 8px 0px;
-    border-radius: 0px 10px 10px 0px;
+    border-radius: 10px;
     border: none;
     background-color: rgba(176, 186, 195, 0.4);
 }
@@ -203,8 +251,9 @@ input {
     border-radius: 10px;
     transition: transform 0.5s;
     color: #ffffff;
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: 500;
+    font-weight: 600;
 }
 
     .btnSubmit:hover {
@@ -213,7 +262,7 @@ input {
     }
 
 .createAccount a {
-    font-weight: 500;
+    font-weight: 600;
     text-decoration: none;
     color: var(--pink4);
 }
@@ -222,19 +271,6 @@ input {
         color: blue;
     }
 
-.or {
-    margin-top: -10px;
-    font-size: 1.3em;
-    font-weight: 400;
-    color: rgba(176, 186, 195, 0.8);
-}
-
-.btnLoginAPI {
-    width: 100%;
-    display: flex;
-    text-align: center;
-    gap: 4%;
-}
 
     .btnLoginAPI button {
         width: 48%;
@@ -242,7 +278,7 @@ input {
         border-radius: 0px 15px 15px 0px;
         background-color: #ffffff;
         border: 1px solid grey;
-        font-size: 1em;
+        font-size: 0.7em;
         transition: transform 0.5s;
     }
 
@@ -255,7 +291,7 @@ input {
     margin-left: 15%;
 }
 
-.container {
+.containerForm {
     top: 15%;
     width: 50%;
     left: 25%;
@@ -263,3 +299,408 @@ input {
     box-shadow: 5px 5px 10px 0px rgba(0, 10, 10, 0.5);
     border-radius: 20px;
 }
+
+/*====================================== CHOOSE ITEM =============================================*/
+
+/* CSS cho overlay */
+.overlay {
+    position: fixed; /* Đặt overlay ở vị trí cố định */
+    top: 0;
+    left: 0;
+    width: 100%; /* Bao phủ toàn bộ chiều rộng */
+    height: 100%; /* Bao phủ toàn bộ chiều cao */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền với độ mờ */
+    display: none; /* Ẩn overlay ban đầu */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    z-index: 999; /* Đặt z-index cao để phủ lên tất cả các phần tử khác */
+}
+
+.popup-alert {
+    width: 300px;
+    height: 150px;
+    background-color: var(--pink3);
+    text-align: center;
+    border: 2px solid var(--pink4);
+    border-radius: 20px;
+    z-index: 1000; /* Đặt z-index cao hơn overlay */
+    position: relative; /* Đặt position relative để căn giữa chính xác */
+}
+
+    .popup-alert p {
+        margin-top: 20px;
+    }
+
+    .popup-alert .btnPopup {
+        border: none;
+        border-radius: 20px;
+        background-color: var(--pink4);
+        color: #ffffff;
+        padding: 5px 10px;
+        transition: transform 0.5s;
+    }
+
+        .popup-alert .btnPopup:hover {
+            transform: scale(1.1);
+            border: 1px solid #ffffff;
+        }
+
+#designForm {
+    font-family: Quicksand;
+    font-weight: 600;
+    padding-bottom: 180px !important; 
+}
+.ChooseItem {
+    margin-top: 30px;
+}
+
+.imgDemo {
+    width: 100%;
+}
+
+.paper {
+    text-align: left !important;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+.paperDesign {
+    text-align: center !important;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+.btnChoose {
+    cursor: pointer;
+    width: 100%;
+    background-color: var(--pink3);
+    color: #ffffff;
+    font-size: 1.1em;
+    border: none;
+    transition: transform 0.5s;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+    .btnChoose:hover {
+        transform: scale(1.1);
+    }
+
+    .btnChoose.active {
+        background-color: #FF005D;
+    }
+
+.submit {
+    text-align: center;
+}
+
+.btnChooseSubmit {
+    margin-top: 30px;
+    width: 150px;
+    background-color: var(--pink3);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1.1em;
+    border: none;
+    transition: transform 0.5s;
+    border-radius: 15px;
+}
+
+    .btnChooseSubmit:hover {
+        transform: scale(1.1);
+        background-color: var(--pink4);
+    }
+
+    .btnChooseSubmit a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    .popup {
+        display: none;
+        width: 200px;
+        position: absolute;
+        background-color: #ffffff;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+.popup-content {
+    width: 100%;
+    height: 100%;
+}
+
+.popup.show {
+    display: block;
+}
+
+.popupImage {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+.row5, .row6 {
+    text-align: center;
+}
+.paper {
+    text-align: center;
+}
+.inputChoose {
+    font-size: 1em;
+    width: 100%;
+    padding: 8px 0px;
+    border-radius: 0px 10px 10px 0px;
+    border: none;
+    background-color: rgba(176, 186, 195, 0.4);
+}
+
+    .inputChoose:placeholder-shown {
+        padding-left: 20px;
+    }
+/*========================================== PAYMENT ======================================*/
+
+.btnReturn {
+    border: none;
+    background-color: #ffffff;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+.btnReturn span {
+    font-size: 1.2em;
+}
+
+.product-card {
+    width: 100%;
+    height: 75px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 0px rgba(253, 206, 223, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.productimg {
+    height: 75px;
+}
+
+.product-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; /* Adjust or remove this if necessary */
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: auto; /* This ensures the product-info takes up all available space */
+}
+
+.product-detail,
+.product-name {
+    margin: 0;
+    padding: 0;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+    .product-price p {
+        margin: 0 5px;
+    }
+
+.number {
+    font-weight: 800;
+}
+
+.more {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btnMore {
+    border: none;
+    background-color: var(--pink3);
+    color: #ffffff;
+    padding: 5px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: transform 0.5s;
+}
+
+    .btnMore:hover {
+        transform: scale(1.1);
+        background-color: var(--pink4);
+    }
+
+.addressTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    border: none;
+}
+
+    .addressTitle p a {
+        color: grey;
+    }
+
+    .addressTitle h5 a {
+        color: #000000;
+    }
+
+    .addressTitle h5, .addressTitle p {
+        margin: 0;
+    }
+
+    .addressTitle a {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+.form-check-input {
+    border-color: var(--pink3);
+}
+
+    .form-check-input:checked {
+        background-color: var(--pink4);
+        border-color: var(--pink3);
+    }
+
+.payBtn {
+    text-align: center;
+    margin-bottom: 150px;
+}
+
+.btnPay {
+    padding: 5px 20px;
+    background-color: var(--pink3);
+    color: #ffffff;
+    border: none;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.5s;
+    margin-top: 50px;
+    position: absolute;
+    margin-bottom: 50px;
+}
+
+    .btnPay:hover {
+        transform: scale(1.1);
+    }
+.backSpace a {
+    text-decoration: none;
+    color: #000000;
+}
+.btnInputAddress {
+    margin-top: 5px;
+    cursor: pointer;
+    background-color: var(--pink3);
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 1.2em;
+    border: none;
+    transition: transform 0.5s;
+    border-radius: 15px
+}
+    .btnInputAddress:hover {
+        transform: scale(1.1);
+    }
+    .btnInputAddress a{
+        text-decoration: none;
+        color: #ffffff;
+    }
+    /*==================================== DEMO3D ================================*/
+    .modelviewer-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+    }
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+}
+
+/*===================================== address ======================================*/
+.rowFormAddress {
+    box-shadow: 5px 5px 10px 0px rgba(253, 206, 223, 0.5);
+    border-radius: 20px;
+    margin-top: 100px;
+}
+
+.formAddress h1 {
+    text-align: center;
+}
+
+.ipAddress {
+    width: 100%;
+    border-radius: 0px 10px 10px 0px;
+    padding: 5px 0px 5px 10px;
+    background-color: rgb(243, 243, 243);
+    border: none;
+    transition: border-color 0.8s;
+}
+
+    .ipAddress:focus {
+        border: 2px solid var(--pink1);
+        border-color: var(--pink2);
+        outline: none;
+    }
+
+.formAddress p {
+    margin-bottom: 0px;
+    margin-top: 15px;
+}
+
+.btnAddress {
+    padding: 5px 20px;
+    background-color: var(--pink3);
+    color: #ffffff;
+    border: none;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: transform 0.5s;
+    text-align: center;
+}
+
+    .btnAddress:hover {
+        transform: scale(1.1);
+    }
+
+.addressBtn {
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 40px;
+}
+
+.selectAddress {
+    width: 100%;
+    border-radius: 0px 10px 10px 0px;
+    padding: 5px 0px 5px 10px;
+    background-color: rgb(243, 243, 243);
+    border: none;
+    transition: border-color 0.8s;
+}
+
+    .selectAddress:focus {
+        border: 2px solid var(--pink1);
+        border-color: var(--pink2);
+        outline: none;
+    }

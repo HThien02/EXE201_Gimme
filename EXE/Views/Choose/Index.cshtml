@@ -1,0 +1,103 @@
+﻿<form id="designForm" asp-controller="Choose" asp-action="Choose" method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7">
+                <h3 class="ChooseItem">Choose item</h3>
+
+                <input type="hidden" name="PaperType" id="PaperType">
+                <input type="hidden" name="Size" id="Size">
+                <input type="hidden" name="BookCuffColor" id="BookCuffColor">
+                <input type="hidden" name="NumberOfPages" id="NumberOfPages">
+                <input type="hidden" name="ImageFrontPath" id="ImageFrontPath">
+                <input type="hidden" name="ImageBackPath" id="ImageBackPath">
+
+                <div class="row row6">
+                    <div class="col-lg-5">
+                        <p class="paper">Tên cuốn sổ</p>
+                        <input class="inputChoose" type="text" name="NotebookName" id="NotebookName" placeholder="Hãy đặt tên cho cuốn sổ">
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-5">
+                        <p class="paper">Ghi chú (nếu có)</p>
+                        <input class="inputChoose" type="text" name="NotebookDescription" id="NotebookDescription" placeholder="Hãy ghi chú tại đây">
+                    </div>
+                </div>
+
+                <div class="row row1">
+                    <p class="paper">Loại giấy</p>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="1">Dot</button></div>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="2">Line</button></div>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="4">Caro</button></div>
+                </div>
+
+                <div class="row row2">
+                    <p class="paper">Kích thước</p>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="1">A4</button></div>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="2">A5</button></div>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="3">B5</button></div>
+                    <div class="col-lg-3"></div>
+                </div>
+
+                <div class="row row3">
+                    <p class="paper">Màu còng sổ</p>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="1">Đen</button></div>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="2">Trắng</button></div>
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3"></div>
+                </div>
+
+                <div class="row row4">
+                    <p class="paper">Số lượng trang</p>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="1">90</button></div>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="2">120</button></div>
+                    <div class="col-lg-3"><button type="button" class="btnChoose" value="3">200</button></div>
+                    <div class="col-lg-3"></div>
+                </div>
+
+                <div class="row">
+                    <div class="row col-lg-6">
+                        <p class="paperDesign">Tự thiết kế</p>
+                        <div class="col-lg-12"></div>
+                        <p class=""></p>
+                        <button type="button" class="btnChoose" value="design">Thiết kế</button>
+                    </div>
+                    <div class="row col-lg-6">
+                        <p class="paperDesign">Thiết kế có sẵn</p>
+                        <div class="col-lg-6 row5">
+                            <p class="paperDesign">Mặt trước</p>
+                            <button type="button" id="selectImageFrontButton" class="btnChoose" value="importFront">Chèn</button>
+                            <input type="file" id="fileInputFront" style="display: none;" accept="image/*">
+                        </div>
+                        <div class="col-lg-6 row6">
+                            <p class="paperDesign">Mặt sau</p>
+                            <button type="button" id="selectImageBackButton" class="btnChoose" value="importBack">Chèn</button>
+                            <input type="file" id="fileInputBack" style="display: none;" accept="image/*">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit">
+                    <button type="button" class="btnChooseSubmit"> <a asp-action="Index" asp-controller="Demo3D">Coi demo</a></button>
+                </div>
+                <div class="submit">
+                    <button type="submit" class="btnChooseSubmit">Thanh toán</button>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <img class="imgDemo" src="/image/Login.png" alt="">
+            </div>
+            <div class="popup">
+                <div class="popup-content">
+                    <img class="popupImage" src="/image/Logo.png" alt="Ảnh">
+                </div>
+            </div>
+        </div>
+        <div class="overlay">
+            <div class="popup-alert">
+                <h3>Thông báo</h3>
+                <p>Đây là thông báo</p>
+                <button class="btnPopup">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,7 +1,24 @@
+using EXE.DataAccess;
+using Microsoft.EntityFrameworkCore;
+using System.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Add session services
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddDbContext<Exe201Context>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MyStockDB"));
+});
 
 var app = builder.Build();
 
@@ -19,6 +36,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+// Add session middleware   
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

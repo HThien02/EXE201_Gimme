@@ -23,6 +23,10 @@ public partial class Project
 
     public decimal? Total { get; set; }
 
+    public int? NumberId { get; set; }
+
+    public virtual NumberOfPage? Number { get; set; }
+
     public virtual Paper? Paper { get; set; }
 
     public virtual Size? Size { get; set; }

@@ -1,0 +1,171 @@
+﻿@using Microsoft.AspNetCore.Http;
+
+@model List<EXE.DataAccess.Project>
+
+
+@{
+    var addressString = ViewData["AddressString"] as string; //CartController
+    decimal totalPrice = 0;
+    int pageSize = 5; // Số lượng sản phẩm trên mỗi trang
+    var userSessionID = Context.Session.GetInt32("UserSessionID");
+
+    // Lọc các mục trong Model để chỉ bao gồm các mục có UserSessionID
+    var filteredModel = Model.Where(p => p.UserId == userSessionID).ToList();
+    int pageCount = (int)Math.Ceiling((double)filteredModel.Count / pageSize); // Số lượng trang
+}
+
+<div class="backSpace">
+    <button class="btnReturn">
+        <a asp-controller="Choose" asp-action="Index">
+            <span>
+                <
+            </span> Return
+        </a>
+    </button>
+    <hr>
+</div>
+<div class="titleCard">
+    <h3>Cart</h3>
+    <p>You have @filteredModel.Count products in your cart</p>
+</div>
+<div class="row">
+    <div class="productlist col-lg-6">
+        @for (int i = 0; i < pageCount; i++)
+        {
+            <div class="product-page @(i > 0 ? "d-none" : "")" id="page-@i">
+                @foreach (var project in filteredModel.Skip(i * pageSize).Take(pageSize))
+                {
+                    decimal productPrice = 0;
+
+                    // Tính tổng giá của từng sản phẩm dựa trên các chi tiết của nó
+                    if (project.Paper != null && project.Size != null && project.Spring != null && project.Number != null)
+                    {
+                        // Check if the nullable decimals are not null, then sum their values
+                        if (project.Paper.Money.HasValue && project.Size.Money.HasValue && project.Spring.Money.HasValue && project.Number.Money.HasValue)
+                        {
+                            productPrice = project.Paper.Money.Value + project.Size.Money.Value + project.Spring.Money.Value + project.Number.Money.Value;
+                        }
+                    }
+
+                    // Thêm giá của sản phẩm này vào tổng giá của toàn bộ giỏ hàng
+                    totalPrice += productPrice;
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img class="productimg" src="@project.Image" alt="Sổ của Gimme">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Số của Gimme</h3>
+                            <p class="product-detail"></p>
+                            @* <p class="product-detail">@project.Paper.Name, @project.Size.Name, @project.Spring.Name, @project.Number.Number</p> *@
+                        </div>
+                        <div class="product-price">
+                            <p class="number">1</p>
+                            <p class="price">@productPrice VNĐ</p>
+                            <p>VNĐ</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        <div class="pagination">
+            @for (int i = 0; i < pageCount; i++)
+            {
+                <button class="btnPage @(i == 0 ? "active" : "")" onclick="showPage(@i)">@(i + 1)</button>
+            }
+        </div>
+        <div class="more">
+            <button class="btnMore">
+                More
+            </button>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="orderTitle">
+            <p class="order">Order #123</p>
+            <h3>Total: @totalPrice VNĐ</h3>
+        </div>
+        <div class="paymentMethod">
+            <h4>Select a payment method:</h4>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="option1" name="singleChoice" value="Option 1">
+                <label class="form-check-label" for="option1">Payment on delivery</label>
+            </div>
+            <div class="InputAddress" id="enterAddressContainer" style="display: none;">
+                <button class="btnInputAddress"><a asp-action="InputAddress" asp-controller="Cart">Nhập địa chỉ</a></button>
+                <span>Địa chỉ của bạn đang trống!</span>
+            </div>
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="radio" id="option2" name="singleChoice" value="Option 2">
+                <label class="form-check-label" for="option2">Credit Card/Debit Card</label>
+            </div>
+        </div>
+        <div class="addressTitle">
+            <h5>Address</h5>
+            <p id="userAddress"><a asp-action="InputAddress" asp-controller="Cart">@addressString</a></p>
+            <h5><a asp-action="InputAddress" asp-controller="Cart">Change -></a></h5>
+        </div>
+    </div>
+</div>
+
+<div class="payBtn">
+    <button class="btnPay">
+        Pay
+    </button>
+</div>
+
+@section Scripts {
+    <script>
+        const userSessionID = '@userSessionID';
+
+        function checkAddress() {
+            fetch(`/api/Address/getAddress?userSessionID=${userSessionID}`)
+                .then(response => response.json())
+                .then(data => {
+                    var enterAddressContainer = document.getElementById('enterAddressContainer');
+                    var userAddress = document.getElementById('userAddress');
+
+                    if (!userAddress.textContent.trim()) {
+                        enterAddressContainer.style.display = 'block';
+                        userAddress.innerHTML = '<a href="#" style="color: red;">Địa chỉ của bạn đang trống!</a>';
+                    } else {
+                        if (data.address) {
+                            enterAddressContainer.style.display = 'none';
+                            userAddress.innerHTML = `<a href="#">${data.address}</a>`;
+                        } 
+                        else {
+                            enterAddressContainer.style.display = 'block';
+                            userAddress.innerHTML = '<a href="#" style="color: red;">Địa chỉ của bạn đang trống!</a>';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching address:', error);
+                    document.getElementById('enterAddressContainer').style.display = 'block';
+                });
+        }
+
+        document.getElementById('option1').addEventListener('change', checkAddress);
+        document.getElementById('option2').addEventListener('change', checkAddress);
+
+        function showPage(page) {
+            const pages = document.querySelectorAll('.product-page');
+            pages.forEach((el, index) => {
+                el.classList.add('d-none');
+                if (index === page) {
+                    el.classList.remove('d-none');
+                }
+            });
+
+            const buttons = document.querySelectorAll('.btnPage');
+            buttons.forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (index === page) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+    </script>
+}

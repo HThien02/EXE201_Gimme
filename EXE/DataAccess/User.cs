@@ -19,6 +19,10 @@ public partial class User
 
     public int? Role { get; set; }
 
+    public string? Address { get; set; }
+
+    public string? Gmail { get; set; }
+
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
     public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
