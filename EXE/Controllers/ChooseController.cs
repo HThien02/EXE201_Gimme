@@ -21,7 +21,7 @@ namespace EXE.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserSession") != null)
+            if (HttpContext.Session.GetString("UserSessionID") != null)
             {
                 return View();
             }

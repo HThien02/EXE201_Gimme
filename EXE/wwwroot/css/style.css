@@ -391,10 +391,14 @@ input {
     .btnChoose.active {
         background-color: #FF005D;
     }
+    .btnChoose a {
+        text-decoration: none;
+        color: #ffffff;
+    }
 
-.submit {
-    text-align: center;
-}
+    .submit {
+        text-align: center;
+    }
 
 .btnChooseSubmit {
     margin-top: 30px;

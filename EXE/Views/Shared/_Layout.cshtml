@@ -26,17 +26,17 @@
                 </ul>
                 <ul>
                     @{
-                        var userSession = Context.Session.GetString("UserSession");
+                        var userSession = Context.Session.GetString("UserSessionUsername");
                         if (!string.IsNullOrEmpty(userSession))
                         {
-                            <button><img class="imgLanguage" src="~/image/iconChangeLanguage.png"></img></button>
-                            <button><a class="btn1">Xin chào, @userSession</a></button>
+                            <button><img class="imgLanguage" src="~/im  age/iconChangeLanguage.png"></img></button>   
+                            <button><a class="btn1" asp-controller="ChangeInformation" asp-action="Index">Xin chào, @userSession</a></button>
                             <button><a class="btn2" asp-controller="Login" asp-action="Logout">Đăng xuất</a></button>
                         } else
                         {
                             <button><img class="imgLanguage" src="~/image/iconChangeLanguage.png"></img></button>
                             <button><a class="btn1" asp-controller="Login" asp-action="Index">Đăng nhập</a></button>
-                            <button><a class="btn2" asp-controller="Login" asp-action="Register">Đăng ký</a></button>
+                            <button><a class="btn2" asp-controller="Register" asp-action="Index">Đăng ký</a></button>
                         }
                     }
                 </ul>

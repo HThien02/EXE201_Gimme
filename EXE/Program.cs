@@ -16,7 +16,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddDbContext<Exe201Context>(options =>
-{
+    {
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyStockDB"));
 });
 

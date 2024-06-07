@@ -25,17 +25,13 @@ namespace EXE.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Login()
-        {
-            if (HttpContext.Session.GetString("UserSession") != null)
+            if (HttpContext.Session.GetString("UserSessionUsername") != null)
             {
-                return RedirectToAction("Home");
+                return RedirectToAction("/Views/Login/Index.cshtml");
             }
             return View();
         }
+
 
         [HttpPost]
         public IActionResult Login(User user)
@@ -66,8 +62,10 @@ namespace EXE.Controllers
                     Console.WriteLine("Error converting avatar data from Base64: " + ex.Message);
                     avatarData = new byte[0];
                 }
+
+                HttpContext.Session.SetString("UserSessionGmail", myUser.Gmail);
                 HttpContext.Session.SetInt32("UserSessionID", myUser.UserId);
-                HttpContext.Session.SetString("UserSession", myUser.Username);
+                HttpContext.Session.SetString("UserSessionUsername", myUser.Username);
                 HttpContext.Session.SetString("UserSessionPass", myUser.Password);
 
                 HttpContext.Session.Set("UserSessionAva", avatarData);
@@ -86,9 +84,9 @@ namespace EXE.Controllers
         public IActionResult Home()
 
         {
-            if (HttpContext.Session.GetString("UserSession") != null)
+            if (HttpContext.Session.GetString("UserSessionUsername") != null)
             {
-                ViewBag.MySession = HttpContext.Session.GetString("UserSession").ToString();
+                ViewBag.MySession = HttpContext.Session.GetString("UserSessionUsername").ToString();
                 ViewBag.MySessionPass = HttpContext.Session.GetString("UserSessionPass").ToString();
                 byte[] avatarData = HttpContext.Session.Get("UserSessionAva") as byte[];
 
@@ -108,70 +106,17 @@ namespace EXE.Controllers
 
         public IActionResult Logout()
         {
-            if (HttpContext.Session.GetString("UserSession") != null)
+            if (HttpContext.Session.GetString("UserSessionUsername") != null)
             {
-                HttpContext.Session.Remove("UserSession");
+                HttpContext.Session.Remove("UserSessionGmail");
+                HttpContext.Session.Remove("UserSessionID");
+                HttpContext.Session.Remove("UserSessionUsername");
+                HttpContext.Session.Remove("UserSessionPass");
+
                 return RedirectToAction("Index", "Home");
             }
             return View();
         }
-
-        public IActionResult Register()
-        {
-            return View("Register", "Login");
-        }
-
-
-        [HttpPost]
-        public async Task<IActionResult> Register(User user)
-        {
-            if (ModelState.IsValid)
-            {
-                user.Role = 1;
-                //await _context.Users.AddAsync(user);
-                //await _context.SaveChangesAsync();
-                //TempData["Success"] = "Registered successfully";
-
-                otp = random.Next(100000, 1000000); //Random OTP
-                HttpContext.Session.SetInt32("OTP", otp);
-                SendOTPToEmail(user.Gmail, otp.ToString());
-
-                TempData["UserGmail"] = user.Gmail;
-                TempData["UserUsername"] = user.Username;
-                TempData["UserPassword"] = user.Password;
-                TempData["UserOTP"] = otp.ToString();
-
-                return RedirectToAction("OTP", "Login");
-            }
-
-            return View("Register", "Login");
-        }
-
-        public IActionResult OTP()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult OTP(string userPassword, string userGmail, string userUsername, string OTP)
-        {
-            var sessionOTP = HttpContext.Session.GetInt32("OTP");
-            if (OTP == sessionOTP.ToString())
-            {
-                var newUser = new User
-                {
-                    Username = userUsername,
-                    Gmail = userGmail,
-                    Password = userPassword
-                };
-                _context.Users.Add(newUser);
-                _context.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-            return View("Register", "Login");
-        }
-
 
 
         [HttpPost]
@@ -187,99 +132,28 @@ namespace EXE.Controllers
         }
 
 
-        //Gửi OTP
-        private void SendOTPToEmail(string email, string otp)
-        {
-            try
-            {
-                var fromAddress = new MailAddress("gimmehomee@gmail.com");
-                var toAddress = new MailAddress(email);
-                const string frompass = "cgzobrjclhcb mggz";
-                const string subject = "Gimme's OTP Verification";
-                string title = "Cảm ơn bạn đã quan tâm đến dịch vụ thiết kế sổ tay của Gimme, hãy nhập mã OTP này để đăng ký thành viên!\n";
-                string body = otp;
-
-                var smtp = new SmtpClient
-                {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, frompass),
-                    Timeout = 200000
-                };
-
-                using (var message = new MailMessage(fromAddress, toAddress)
-                {
-                    Subject = subject,
-                    Body = title + body
-                })
-                {
-                    smtp.Send(message);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
-        public IActionResult Forgot() { 
-            return View();
-        }
-
         [HttpPost]
-        public IActionResult OTPForgot(string gmail) {
-
-            if (gmail != null) {
-                otp = random.Next(100000, 1000000); //Random OTP
-                HttpContext.Session.SetInt32("OTPChangePassword", otp);
-                SendOTPToChangePassword(gmail, otp.ToString());
-
-
-            }
-
-
-
-            return View("Index", "Login");
-        }
-
-        private void SendOTPToChangePassword(string email, string otp)
+        public IActionResult ChangePassword(string otp, string password)
         {
-            try
+            var sessionOtp = HttpContext.Session.GetInt32("OTPChangePassword");
+            var sessionUserID = HttpContext.Session.GetInt32("UserSessionID");
+
+            if (sessionOtp.HasValue && sessionOtp.Value.ToString() == otp)
             {
-                var fromAddress = new MailAddress("gimmehomee@gmail.com");
-                var toAddress = new MailAddress(email);
-                const string frompass = "cgzobrjclhcb mggz";
-                const string subject = "Gimme's OTP Verification";
-                string title = "Để thay đổi mật khẩu, hãy nhập mã OTP:\n";
-                string body = otp;
+                var user = _context.Users.FirstOrDefault(u => u.UserId == sessionUserID);
+                user.Password = password;
 
-                var smtp = new SmtpClient
-                {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, frompass),
-                    Timeout = 200000
-                };
-
-                using (var message = new MailMessage(fromAddress, toAddress)
-                {
-                    Subject = subject,
-                    Body = title + body
-                })
-                {
-                    smtp.Send(message);
-                }
+                _context.SaveChanges();
+                HttpContext.Session.Remove("OTPChangePassword");
+                return RedirectToAction("Index", "Login");
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.ToString());
+                ModelState.AddModelError("", "OTP không hợp lệ.");
+                return View("Forgot");
             }
         }
+
+
     }
 }
