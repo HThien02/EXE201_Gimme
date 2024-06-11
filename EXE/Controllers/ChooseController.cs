@@ -21,11 +21,11 @@ namespace EXE.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("UserSessionID") != null)
-            {
+            //if (HttpContext.Session.GetString("UserSessionID") != null)
+            //{
                 return View();
-            }
-            return RedirectToAction("Index", "Login");
+            //}
+            //return RedirectToAction("Index", "Login");
         }
 
         [HttpPost]

@@ -1,110 +1,94 @@
-﻿using EXE.DataAccess;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualBasic;
-using NuGet.Protocol.Plugins;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Mail;
 using System.Net;
-using System.Security.Cryptography;
+using EXE.DataAccess;
 using System.Text;
+using System.Security.Cryptography;
+using static System.Net.WebRequestMethods;
 
 namespace EXE.Controllers
 {
-    public class ChangeInformationController : Controller
+    public class ChangePasswordController : Controller
     {
         private readonly Exe201Context _context;
         Random random = new Random();
         int otp;
-        public ChangeInformationController(Exe201Context context)
+        public ChangePasswordController(Exe201Context context)
         {
             _context = context;
 
         }
         public IActionResult Index()
         {
-        var sessionUser = HttpContext.Session.GetInt32("UserSessionID");
-
-            if (sessionUser != null)
+            if (HttpContext.Session.GetInt32("UserSessionID") != null)
             {
-                var user = _context.Users.FirstOrDefault(u => u.UserId == sessionUser);
-                if (user != null)
-                {
-                    TempData["UserUsername"] = user.Username;
-                    TempData["UserPassword"] = user.Password;
-                    TempData["UserGmail"] = user.Gmail;
-                    return View("/Views/Login/Information.cshtml");
-                }
+                ViewData["statusPassword"] = "changePassword";
+                return View("/Views/Account/ChangePassword.cshtml");
             }
             return View("/Views/Home/Index.cshtml");
         }
-        //[HttpPost]
-        //public IActionResult ChangePasswordView(string username, string password, string gmail)
-        //{
-
-        //    if (HttpContext.Session.GetInt32("UserSessionID") != null)
-        //    {
-        //        ViewData["statusPassword"] = "changePassword";
-        //        return View("/Views/Account/ChangePassword.cshtml");
-        //    }
-        //    // Chuyển hướng tới view Home
-        //    return View("/Views/Home/Index.cshtml");
-        //}
-
-        //[HttpPost]
-        //public IActionResult ChangePassword() {
-        //    if (HttpContext.Session.GetInt32("UserSessionID") != null)
-        //    {
-        //        return View("/Views/Account/ChangePassword.cshtml");
-        //    }
-        //    // Chuyển hướng tới view Home
-        //    return View("/Views/Home/Index.cshtml");
-        //}
 
         [HttpPost]
-        public IActionResult Index(User user) {
-            if (HttpContext.Session.GetInt32("UserSessionID") != null) {
-                TempData["UserUsername"] = user.Username;
-                TempData["UserPassword"] = user.Password;
-                TempData["UserGmail"] = user.Gmail;
+        public IActionResult ChangePassword(string oldPassword, string newPassword, string confirmNewPassword)
+        {
+            var userSessionID = HttpContext.Session.GetInt32("UserSessionID");
+            if (userSessionID != null) //Nếu không có sesstion => chuyển sang login
+            {
+                var userID = _context.Users.FirstOrDefault(u => u.UserId == userSessionID);
+                if (userID != null)
+                {
+                    var hashedPassword = HashPassword(oldPassword);
+                    if (hashedPassword == userID.Password)
+                    { //Nếu password cũ đúng => gửi OTP đổi password
 
-                otp = random.Next(100000, 1000000); //Random OTP
-                HttpContext.Session.SetInt32("OTPChangeInformation", otp);
-                SendOTPToChangeInformation(user.Gmail, otp.ToString());
+                        HttpContext.Session.SetString("newPassword", newPassword);
 
-                return RedirectToAction("OTP");
+                        otp = random.Next(100000, 1000000); //Random OTP
+                        HttpContext.Session.SetInt32("OTPChangePassword", otp);
+                        SendOTPToChangeInformation(userID.Gmail, otp.ToString());
+
+                        return RedirectToAction("OTP");
+                    }
+                    else //Nếu password cũ không đúng => trở về và báo lỗi
+                    {
+                        TempData["statusPassword"] = "incorrectPassword";
+                        return View("/Views/Account/ChangePassword.cshtml.cshtml");
+                    }
+
+                }
             }
-            return View("/Views/Home/Index/cshtml");
+            return View("/Views/Login/OTP.cshtml");
         }
 
         public IActionResult OTP()
         {
-            TempData["UserAction"] = "ChangeInformation";
+            ViewData["UserAction"] = "changePassword";
             return View("/Views/Login/OTP.cshtml");
         }
+
         [HttpPost]
-        public IActionResult OTP(string username, string password, string gmail, string address, string OTP)
+        public IActionResult OTPChangePassword(string OTP)
         {
-            var sessionOTP = HttpContext.Session.GetInt32("OTPChangeInformation");
+            var sessionOTP = HttpContext.Session.GetInt32("OTPChangePassword");
             if (OTP == sessionOTP.ToString())
             {
+                var newPassword = HttpContext.Session.GetString("newPassword");
                 var sessionUserID = HttpContext.Session.GetInt32("UserSessionID");
                 var user = _context.Users.FirstOrDefault(u => u.UserId == sessionUserID);
-                string hashedPassword = HashPassword(password);
+                string hashedPassword = HashPassword(newPassword);
                 if (user != null)
                 {
-                    user.Password = hashedPassword;
-                    user.Address = address;
-                    user.Gmail = gmail;
+                    user.Password = newPassword;
                 }
                 _context.Users.Update(user);
                 _context.SaveChanges();
-                HttpContext.Session.Remove("OTP");
+                HttpContext.Session.Remove("OTPChangePassword");
+                HttpContext.Session.Remove("newPassword");
 
                 return View("/Views/Home/Index.cshtml");
             }
             return View("Views/Home/Index.cshtml");
         }
-
-
 
         private void SendOTPToChangeInformation(string email, string otp)
         {

@@ -6,10 +6,12 @@
 }
 
 footer {
-    flex-shrink: 0;
+    bottom: 0;
+
 }
 body {
     min-height: 100vh;
+    position: relative;
 }
 
 
@@ -85,7 +87,7 @@ body {
     margin-left: 10px;
 }
 
-    .header button:nth-child(2) {
+    .header button:nth-child(3) {
         background-color: #ffffff;
         padding: 2px 10px;
         border-radius: 5px;
@@ -93,7 +95,7 @@ body {
         transition: transform 0.5s;
     }
 
-.header button:nth-child(2):hover {
+.header button:nth-child(3):hover {
     transform: scale(1.1);
     border: 1px solid var(--pink3);
 }
@@ -153,7 +155,7 @@ body {
 }
 
 .btn_start {
-    margin: 50px 0px calc(351px - 60.5px - 150px) 100px;
+    margin: 50px 0px calc(25% - 60.5px - 150px) 100px;
     color: #ffffff;
     background-color: var(--pink3);
     border: 1px solid #ffffff;
@@ -206,7 +208,7 @@ body {
 /*======================================LOGIN PAGE==============================*/
 .contentLogin {
     font-family: Quicksand;
-    height: calc(780px + 190px - 60.5px);
+    height: calc(850px + 190px - 60.5px);
     background-color: var(--pink1);
 }
 
@@ -287,8 +289,8 @@ input {
         }
 
 .imgLogin {
-    width: 90%;
-    margin-left: 15%;
+    width: 100%;
+    height: 100%;
 }
 
 .containerForm {
@@ -708,3 +710,11 @@ model-viewer {
         border-color: var(--pink2);
         outline: none;
     }
+
+/*    ============================== CHANGE PASSWORD =============================*/
+.alertChangePassword {
+    margin-left: 0px !important;
+    margin-top: 0px !important;
+    color: red;
+    display: none;
+}

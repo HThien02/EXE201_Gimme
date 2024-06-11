@@ -5,8 +5,10 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Configuration;
+using System.Text;
 using System.ComponentModel;
 using System.Net.Mail;
+using System.Security.Cryptography;
 using System.Net;
 
 namespace EXE.Controllers
@@ -27,16 +29,15 @@ namespace EXE.Controllers
         {
             if (HttpContext.Session.GetString("UserSessionUsername") != null)
             {
-                return RedirectToAction("/Views/Login/Index.cshtml");
+                return RedirectToAction("/Views/Home/Index.cshtml");
             }
-            return View();
+            TempData["LoginStatus"] = "Login";
+            return View("/Views/Login/Index.cshtml");
         }
-
 
         [HttpPost]
         public IActionResult Login(User user)
         {
-
             if (user == null)
             {
                 return BadRequest("User object is null.");
@@ -47,7 +48,10 @@ namespace EXE.Controllers
                 return View(user);
             }
 
-            var myUser = _context.Users.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
+            // Mã hóa mật khẩu người dùng nhập vào
+            string hashedPassword = HashPassword(user.Password);
+
+            var myUser = _context.Users.FirstOrDefault(x => x.Username == user.Username && x.Password == hashedPassword);
 
             if (myUser != null)
             {
@@ -58,24 +62,37 @@ namespace EXE.Controllers
                 }
                 catch (FormatException ex)
                 {
-
                     Console.WriteLine("Error converting avatar data from Base64: " + ex.Message);
                     avatarData = new byte[0];
                 }
 
-                HttpContext.Session.SetString("UserSessionGmail", myUser.Gmail);
                 HttpContext.Session.SetInt32("UserSessionID", myUser.UserId);
                 HttpContext.Session.SetString("UserSessionUsername", myUser.Username);
                 HttpContext.Session.SetString("UserSessionPass", myUser.Password);
-
                 HttpContext.Session.Set("UserSessionAva", avatarData);
+
                 return RedirectToAction("Index", "Home");
             }
+                else
+                {
+                    TempData["LoginStatus"] = "LoginFailed";
+                    return View("/Views/Login/Index.cshtml");
+                }
+        }
 
-            else
+        private string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
             {
-                ViewBag.ErrorMessage = "Invalid username or password";
-                return View(user);
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
             }
         }
 

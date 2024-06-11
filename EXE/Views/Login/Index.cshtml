@@ -1,7 +1,8 @@
-﻿    @{
-        ViewData["Title"] = "Login Page";
-    }
-    <form asp-controller="Login" asp-action="Login" method="post">
+﻿@{
+    ViewData["Title"] = "Login Page";
+    var loginStatus = TempData["LoginStatus"] as string;
+}
+<form asp-controller="Login" asp-action="Login" method="post">
     <div class="contentLogin container-fluid">
         <div class="container containerForm backgroundLogin">
             <div class="row">
@@ -14,19 +15,19 @@
                         <div class="col-lg-8">
                             <h1>Gimme Store</h1>
                             <p class="pAccount">Tài khoản</p>
-                            <input name="username" type="text"
-                                   placeholder="Nhập tên đăng nhập" />
+                            <input class="ipAddress" id="statusLogin" type="hidden" value="@loginStatus">
+                            <input name="username" type="text" />
+                            <p class="alertChangePassword" id="alertLogin1">@EXE.Resources.Resource.IncorrectLogin</p>
                             <p class="pAccount">Mật khẩu</p>
-                            <input name="password" type="password" 
-                                   placeholder="Nhập mật khẩu" />
+                            <input name="password" type="password" />
+                            <p class="alertChangePassword" id="alertLogin2">@EXE.Resources.Resource.IncorrectLogin</p>
                             <button class="btnSubmit">Đăng nhập</button>
                             <p class="createAccount">
-                                Bạn đã có tài khoản chưa? <a asp-action="Register" asp-controller="Login">Đăng ký</a>
+                                Bạn đã có tài khoản chưa? <a asp-action="Register" asp-controller="Login">@EXE.Resources.Resource.Register</a>
                             </p>
                             <p class="createAccount">
-                                <a asp-controller="Login" asp-action="Forgot">Quên mật khẩu?</a>
+                                <a asp-controller="" asp-action="">@EXE.Resources.Resource.Forgot</a>
                             </p>
-                            <a class="forgotPassword" asp-action="" asp-controller="Login"></a>
                         </div>
                         <div class="col-lg-2"></div>
                     </div>
@@ -34,4 +35,17 @@
             </div>
         </div>
     </div>
-    </form>
+</form>
+<script>
+    var alertLogin1 = document.getElementById("alertLogin1");
+    var alertLogin2 = document.getElementById("alertLogin2");
+    var statusLogin = document.getElementById("statusLogin");
+    var statusLoginValue = statusLogin.value;
+    if (statusLoginValue == "LoginFailed") {
+        alertLogin1.style.display = "block";
+        alertLogin2.style.display = "block";
+    } else {
+        alertLogin1.style.display = "none";
+        alertLogin2.style.display = "none";
+    }
+</script>

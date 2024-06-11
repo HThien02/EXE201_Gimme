@@ -4,6 +4,8 @@ using Microsoft.Win32;
 using NuGet.Protocol.Plugins;
 using System;
 using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 using System.Net;
 using static System.Net.WebRequestMethods;
 
@@ -41,7 +43,7 @@ namespace EXE.Controllers
                 TempData["UserUsername"] = user.Username;
                 TempData["UserPassword"] = user.Password;
                 TempData["UserOTP"] = otp.ToString();
-                return RedirectToAction("OTP", "Login");
+                return RedirectToAction("OTP");
             }
 
             return View("Register", "Login");
@@ -91,27 +93,49 @@ namespace EXE.Controllers
             return View("/Views/Login/OTP.cshtml");
         }
 
-        [HttpPost]
-        public IActionResult OTP(string username, string password, string gmail, string address,string OTP)
+    [HttpPost]
+    public IActionResult OTP(string username, string password, string gmail, string address, string OTP)
+    {
+        var sessionOTP = HttpContext.Session.GetInt32("OTP");
+        if (OTP == sessionOTP.ToString())
         {
-            var sessionOTP = HttpContext.Session.GetInt32("OTP");
-            if (OTP == sessionOTP.ToString())
+            // Mã hóa mật khẩu
+            string hashedPassword = HashPassword(password);
+
+            var newUser = new User
             {
-                var newUser = new User
-                {
-                    Username = username,
-                    Gmail = gmail,
-                    Password = password,
-                    Address = address,
-                    
-                };
-                _context.Users.Add(newUser);
-                _context.SaveChanges();
-                HttpContext.Session.Remove("OTP");
-                return RedirectToAction("Index");
+                Username = username,
+                Gmail = gmail,
+                Password = hashedPassword, // Sử dụng mật khẩu đã băm
+                Address = address,
+            };
+
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
+            HttpContext.Session.Remove("OTP");
+            return RedirectToAction("Index");
+        }
+        return View("Register", "Login");
+    }
+
+    private string HashPassword(string password)
+    {
+        using (SHA256 sha256Hash = SHA256.Create())
+        {
+            // Convert the input string to a byte array and compute the hash
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            // Convert the byte array to a string of hexadecimal characters
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                builder.Append(bytes[i].ToString("x2"));
             }
-            return View("Register", "Login");
+
+            return builder.ToString();
         }
     }
+
+}
 
 }
