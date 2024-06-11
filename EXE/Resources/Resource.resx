@@ -120,6 +120,9 @@
   <data name="Address" xml:space="preserve">
     <value>Địa chỉ</value>
   </data>
+  <data name="AddressShip" xml:space="preserve">
+    <value>Địa chỉ giao hàng</value>
+  </data>
   <data name="BackSide" xml:space="preserve">
     <value>Mặt sau</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Xác nhận</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Xác nhận mật khẩu mới</value>
   </data>
   <data name="CreditCard" xml:space="preserve">
     <value>Thẻ ghi nợ</value>
@@ -180,6 +186,12 @@
   <data name="IncorrectLogin" xml:space="preserve">
     <value>Sai tên tài khoản hoặc mật khẩu</value>
   </data>
+  <data name="IncorrectNewPassword" xml:space="preserve">
+    <value>Mật khẩu mới không khớp</value>
+  </data>
+  <data name="IncorrectOldPassword" xml:space="preserve">
+    <value>Sai mật khẩu cũ</value>
+  </data>
   <data name="InputAddress" xml:space="preserve">
     <value>Nhập địa chỉ!</value>
   </data>
@@ -192,11 +204,17 @@
   <data name="NameOfNote" xml:space="preserve">
     <value>Tên cuốn sổ</value>
   </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>Mật khẩu mới</value>
+  </data>
   <data name="Note" xml:space="preserve">
     <value>Ghi chú (nếu có)</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Số lượng trang</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Mật khẩu cũ</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Đơn hàng</value>

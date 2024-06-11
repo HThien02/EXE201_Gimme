@@ -120,6 +120,9 @@
   <data name="Address" xml:space="preserve">
     <value>Address</value>
   </data>
+  <data name="AddressShip" xml:space="preserve">
+    <value>Address ship</value>
+  </data>
   <data name="BackSide" xml:space="preserve">
     <value>Back Side</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>Confirm new password</value>
   </data>
   <data name="CreditCard" xml:space="preserve">
     <value>Credit Card/Debit Card</value>
@@ -180,6 +186,12 @@
   <data name="IncorrectLogin" xml:space="preserve">
     <value>Incorrect username or password</value>
   </data>
+  <data name="IncorrectNewPassword" xml:space="preserve">
+    <value>Incorrect new password</value>
+  </data>
+  <data name="IncorrectOldPassword" xml:space="preserve">
+    <value>Incorrect old password</value>
+  </data>
   <data name="InputAddress" xml:space="preserve">
     <value>Input your address!</value>
   </data>
@@ -192,11 +204,17 @@
   <data name="NameOfNote" xml:space="preserve">
     <value>Name of notebook</value>
   </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
   <data name="Note" xml:space="preserve">
     <value>Note (If have)</value>
   </data>
   <data name="Number" xml:space="preserve">
     <value>Numbers</value>
+  </data>
+  <data name="OldPassword" xml:space="preserve">
+    <value>Old password</value>
   </data>
   <data name="Order" xml:space="preserve">
     <value>Order</value>

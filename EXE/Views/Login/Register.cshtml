@@ -17,27 +17,21 @@
                             <input class="ipText"
                                    name="gmail"
                                    type="text"
-                                   placeholder="Hãy nhập gmail tại đây" />
-                        <p class="pAccount">Tên tài khoản</p>
+                                    />
+                        <p class="pAccount">@EXE.Resources.Resource.Username</p>
                         <input class="ipText"
                             name="username"
-                               type="text"
-                               placeholder="Hãy nhập tên tài khoản tại đây" />
-                        <p class="pAccount">Mật khẩu</p>
+                               type="text" />
+                            <p class="pAccount">@EXE.Resources.Resource.Password</p>
                         <input class="ipText"
                             name="password"
-                               type="password"
-                               placeholder="Hãy nhập mật khẩu tại đây" />
-@*                         <p class="pAccount">Password</p>
-                        <input class="ipText"
-                               type="password"
-                               placeholder="Please repeats your password" /> *@
-                        <button class="btnSubmit">Đăng ký</button>
+                               type="password" />
+                            <button class="btnSubmit">@EXE.Resources.Resource.Register</button>
                         <p class="createAccount">
-                            Bạn đã có tài khoản? <a asp-action="Index" asp-controller="Login">Đăng nhập</a>
+                                @EXE.Resources.Resource.Doyou <a asp-action="Index" asp-controller="Login">@EXE.Resources.Resource.LogIn</a>
                         </p>
                         <p class="createAccount">
-                            <a asp-action="Forgot" asp-controller="Login">Quên mật khẩu?</a>
+                                <a asp-action="Forgot" asp-controller="Login">@EXE.Resources.Resource.Forgot</a>
                         </p>
                       
                     </div>

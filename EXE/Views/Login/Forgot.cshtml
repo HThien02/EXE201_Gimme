@@ -17,15 +17,14 @@
                             {
                                 <input name="otp" type="hidden" value="@ViewBag.UserOTP" />
                             }
-                            <p class="pAccount">Mật khẩu mới</p>
-                            <input name="password" type="password"
-                                   placeholder="Hãy nhập mật khẩu mới tại đây" />
-                            <button type="submit" class="btnSubmit">Đổi mật khẩu</button>
+                            <p class="pAccount">@EXE.Resources.Resource.NewPassword</p>
+                            <input name="password" type="password"/>
+                            <button type="submit" class="btnSubmit">@EXE.Resources.Resource.changePassword</button>
                             <p class="createAccount">
-                                Bạn chưa có tài khoản? <a asp-action="Register" asp-controller="Login">Đăng ký</a>
+                                @EXE.Resources.Resource.Doyou? <a asp-action="Register" asp-controller="Login">@EXE.Resources.Resource.Register</a>
                             </p>
                             <p class="createAccount">
-                                <a asp-action="Index" asp-controller="Login">Đăng nhập</a>
+                                <a asp-action="Index" asp-controller="Login">@EXE.Resources.Resource.LogIn</a>
                             </p>
                         </div>
                         <div class="col-lg-2"></div>

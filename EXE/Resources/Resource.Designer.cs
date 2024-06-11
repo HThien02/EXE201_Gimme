@@ -70,6 +70,15 @@ namespace EXE.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Địa chỉ giao hàng.
+        /// </summary>
+        public static string AddressShip {
+            get {
+                return ResourceManager.GetString("AddressShip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mặt sau.
         /// </summary>
         public static string BackSide {
@@ -138,6 +147,15 @@ namespace EXE.Resources {
         public static string Confirm {
             get {
                 return ResourceManager.GetString("Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xác nhận mật khẩu mới.
+        /// </summary>
+        public static string ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
             }
         }
         
@@ -250,6 +268,24 @@ namespace EXE.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mật khẩu mới không khớp.
+        /// </summary>
+        public static string IncorrectNewPassword {
+            get {
+                return ResourceManager.GetString("IncorrectNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sai mật khẩu cũ.
+        /// </summary>
+        public static string IncorrectOldPassword {
+            get {
+                return ResourceManager.GetString("IncorrectOldPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nhập địa chỉ!.
         /// </summary>
         public static string InputAddress {
@@ -286,6 +322,15 @@ namespace EXE.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mật khẩu mới.
+        /// </summary>
+        public static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ghi chú (nếu có).
         /// </summary>
         public static string Note {
@@ -300,6 +345,15 @@ namespace EXE.Resources {
         public static string Number {
             get {
                 return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mật khẩu cũ.
+        /// </summary>
+        public static string OldPassword {
+            get {
+                return ResourceManager.GetString("OldPassword", resourceCulture);
             }
         }
         
