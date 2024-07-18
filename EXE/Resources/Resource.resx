@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
   <data name="Address" xml:space="preserve">
     <value>Địa chỉ</value>
   </data>
@@ -138,6 +141,9 @@
   <data name="changePassword" xml:space="preserve">
     <value>Đổi mật khẩu</value>
   </data>
+  <data name="ChooseError" xml:space="preserve">
+    <value>Bạn chưa chọn đầy đủ vật liệu!</value>
+  </data>
   <data name="ChooseItem" xml:space="preserve">
     <value>Chọn chất liệu</value>
   </data>
@@ -149,6 +155,12 @@
   </data>
   <data name="ConfirmNewPassword" xml:space="preserve">
     <value>Xác nhận mật khẩu mới</value>
+  </data>
+  <data name="Creative" xml:space="preserve">
+    <value>Tầm nhìn</value>
+  </data>
+  <data name="Creative_content" xml:space="preserve">
+    <value>Tạo ra một cộng đồng sáng tạo có ý nghĩa, nơi mọi người có thể thể hiện bản thân và phát triển tiềm năng của mình thông qua việc sử dụng các sản phẩm sổ tay do chúng tôi tự thiết kế.</value>
   </data>
   <data name="CreditCard" xml:space="preserve">
     <value>Thẻ ghi nợ</value>
@@ -201,6 +213,15 @@
   <data name="LogOut" xml:space="preserve">
     <value>Đăng xuất</value>
   </data>
+  <data name="MaOTP" xml:space="preserve">
+    <value>Mã OTP đã được gửi về email của bạn, hãy check Email!</value>
+  </data>
+  <data name="Material" xml:space="preserve">
+    <value>Sứ mệnh</value>
+  </data>
+  <data name="Material_content" xml:space="preserve">
+    <value>Hỗ trợ và truyền cảm hứng cho mọi người trong việc tạo ra sản phẩm sổ tay tự thiết kế độc đáo và mang tính cá nhân.</value>
+  </data>
   <data name="NameOfNote" xml:space="preserve">
     <value>Tên cuốn sổ</value>
   </data>
@@ -238,10 +259,16 @@
     <value>Thanh toán</value>
   </data>
   <data name="PaymentOn" xml:space="preserve">
-    <value>Thanh toán khi nhận hàng</value>
+    <value>Quét mã QR</value>
   </data>
   <data name="Product" xml:space="preserve">
     <value>sản phẩm trong giỏ hàng</value>
+  </data>
+  <data name="Product_content" xml:space="preserve">
+    <value>Nhận được sản phẩm như mong muốn!</value>
+  </data>
+  <data name="Product_home" xml:space="preserve">
+    <value>Cá nhân hóa, sáng tạo, thực tế, bền vững</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Đăng ký</value>
@@ -256,7 +283,7 @@
     <value>Chọn phương thức thanh toán</value>
   </data>
   <data name="Service" xml:space="preserve">
-    <value>Dịch vụ</value>
+    <value>Hướng dẫn</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Kích thước</value>

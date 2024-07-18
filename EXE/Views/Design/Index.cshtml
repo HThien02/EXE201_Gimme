@@ -1,6 +1,6 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
-    Layout = null;
+    ViewData["Title"] = "Design";
+    ViewBag.HideFooter = true;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +12,24 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/polotno/polotno.css">
 </head>
 <body>
+
+    @{
+        var PaperType = Context.Session.GetString("PaperType");
+        var Size = Context.Session.GetString("Size");
+        var BookCuffColor = Context.Session.GetString("BookCuffColor");
+        var NumberOfPages = Context.Session.GetInt32("NumberOfPages");
+        var notebookName = Context.Session.GetString("NotebookName");
+        var notebookDescription = Context.Session.GetString("NotebookDescription");
+    }
+    <form id="designForm" asp-action="Choose" asp-controller="Choose" method="post">
+        <input type="hidden" name="PaperType" id="PaperType" value="@PaperType">
+        <input type="hidden" name="Size" id="Size" value="@Size">
+        <input type="hidden" name="BookCuffColor" id="BookCuffColor" value="@BookCuffColor">
+        <input type="hidden" name="NumberOfPages" id="NumberOfPages" value="@NumberOfPages">
+        <input type="hidden" name="NotebookName" id="NotebookName" value="@notebookName">
+        <input type="hidden" name="NotebookDescription" id="NotebookDescription" value="@notebookDescription">
+        <button type="button" class="btnChooseSubmit" name="action" value="add">@EXE.Resources.Resource.Add</button>
+    </form>
     <!-- add styles -->
     <link href="https://unpkg.com/@@blueprintjs/core@5/lib/css/blueprint.css"
           rel="stylesheet" />
@@ -36,6 +54,7 @@
     <div id="container"></div>
     <!-- init the editor -->
     <script>
+        var size = '@Size';
         const { store } = createPolotnoApp({
             // this is a demo key just for that project
             // (!) please don't use it in your projects
@@ -47,21 +66,43 @@
             container: document.getElementById('container'),
             // also optionally you can specify which side panels you want to show
             // by default all panels are shown
-            // sections: ['photos', 'text', 'elements', 'upload', 'background', 'layers']
+            sections: ['templates', 'text', 'photos', 'elements', 'upload', 'background', 'layers']
         });
         const page = store.addPage();
         store.selectPage(store.pages[0].id);
+        store.setUnit({
+            unit: 'px', // mm, cm, in, pt, px
+            dpi: 300,
+        });
+
+        if (size === 'A4') {
+            store.setSize(2480, 3508);
+        } else if (size === 'A5') {
+            store.setSize(1754, 2480);
+        } else {
+            store.setSize(2150, 3036);
+        }
         // you can use full store API available here: https://polotno.com/docs/store-overview
     </script>
-    <button class="save-img">Save As Image</button>
+    <button class="save-img">View 3D</button>
     <button class="clear-img">Clear</button>
-    <button class="add-img">Add</button>
     <div id="imageContainer"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <div class="extra-content" id="3d-view" style="display:none;">
 
 
         <script>
+            function dataURLToBlob(dataURL) {
+                const byteString = atob(dataURL.split(',')[1]);
+                const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+                const ab = new ArrayBuffer(byteString.length);
+                const ia = new Uint8Array(ab);
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                return new Blob([ab], { type: mimeString });
+            }
+
             async function getImageDataURL(i) {
                 const dataURL = await store.toDataURL({ pageId: store.pages[i].id });
                 return dataURL;
@@ -151,7 +192,17 @@
 
                 // Create torus geometry for rings
                 const ringGeometry = new THREE.TorusGeometry(0.2, 0.03, 16, 100);
-                const ringMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+
+
+                const color = '@BookCuffColor';
+
+                let ringMaterial;
+                if (color === 'Black') {
+                    ringMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+                } else {
+                    ringMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+                }
+
 
                 // Tạo geometry và material cho các hình tròn màu trắng
                 const circleGeometry = new THREE.CircleGeometry(0.07, 32); // Radius 0.2, 32 segments
@@ -322,18 +373,61 @@
                 }
             }
 
-            function add() {
-                scene.add(cube);
-            }
-
             document.querySelector('.clear-img').addEventListener('click', () => {
                 clear();
             });
-            document.querySelector('.add-img').addEventListener('click', () => {
-                add();
-            });
+
             parentElement.addEventListener('mouseenter', disableScroll);
             parentElement.addEventListener('mouseleave', enableScroll);
+
+            async function sendImagetoo(file, inputId, imageType) {
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('imageType', imageType); // Send image type with file
+
+                let endpoint = '/Choose/UploadFrontImages';
+                if (imageType === 'back') {
+                    endpoint = '/Choose/UploadBackImages';
+                }
+
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        body: formData,
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to upload images.');
+                    }
+
+                    const data = await response.json(); // Parse response JSON
+
+                    if (imageType === 'front') {
+                        const file1 = dataURLToBlob(await getImageDataURL(1));
+                        sendImagetoo(file1, 'ImageBackPath', 'back');
+                        // Handle file1 as needed, e.g., upload it or process it
+                    } else {
+                        document.querySelector('form').submit();
+                    }
+
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Failed to upload images.');
+                }
+            }
+
+            async function sendImage() {
+                const file = dataURLToBlob(await getImageDataURL(0));
+                await sendImagetoo(file, 'ImageFrontPath', 'front');
+
+            }
+
+            document.querySelector('.btnChooseSubmit').addEventListener('click', () => {
+
+                sendImage();
+
+            });
+
         </script>
     </div>
 </body>

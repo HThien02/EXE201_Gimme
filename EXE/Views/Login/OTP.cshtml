@@ -3,7 +3,7 @@
     var action = TempData["UserAction"] as string;
 }
 <div class="container">
-    <div class="row">
+    <div style="margin-bottom: 500px;" class="row">
         <div class="col-lg-3"></div>
         <div class="row rowFormAddress col-lg-6">
             <div class="col-lg-2"></div>
@@ -12,7 +12,7 @@
                     <h1>@EXE.Resources.Resource.OTPAuthen</h1>
                     <p>@EXE.Resources.Resource.OTP</p>
                     <input class="ipAddress" type="text" name="otp">
-
+                    <p style="color: red;">@EXE.Resources.Resource.MaOTP</p>
                     <!-- Hidden fields to pass TempData values -->
                     @if (action == "ChangePassword")
                     {

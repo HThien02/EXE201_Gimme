@@ -1,45 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Gimme Store";
 }
 <div class="content container-fluid">
+    <div class="left-aligned">
     <p class="slogan1">Design</p>
     <p class="slogan2">Your Style</p>
-    <p class="title">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti quam
-        placeat, dignissimos neque nobis consectetur eligendi ad eius aut omnis
-        sint? Debitis necessitatibus similique voluptatum deleniti, odio magni?
-        Doloribus fugit quam optio repellendus, sed, sapiente quos culpa porro
-        pariatur amet quaerat suscipit sequi eum perspiciatis consequatur, quia
-        impedit ipsam aliquid fugiat asperiores a molestiae tempore dicta magni.
-        Nostrum quas fugiat error consequatur unde! Facere, vitae officia.
-        Impedit consequuntur quis voluptas possimus, error odit dolorem nesciunt
-        cumque repellendus, itaque sint iste excepturi atque distinctio
-        voluptate nostrum fugiat esse fuga sunt illo saepe voluptates. Nihil
-        harum amet illo architecto quaerat similique rerum!
-    </p>
     <button class="btn_start"><a asp-action="Index" asp-controller="Choose">@EXE.Resources.Resource.Start!</a></button>
-@*     <button class="btn_start">Start!</button> *@
-</div>
-<div class="cardList">
-    <div class="card">
-        <div class="cardTittle">
-            <i class="uil uil-heart"></i>
-            <h5>Material</h5>
-            <p>Choose your favourite material.</p>
-        </div>
     </div>
-    <div class="card">
-        <div class="cardTittle">
-            <i class="uil uil-star"></i>
-            <h5>Creative</h5>
-            <p>Be creative according to your personal preferences.</p>
+    <div class="cardList">
+        <div class="card">
+            <div class="cardTittle">
+                <i class="uil uil-heart"></i>
+                <h5>@EXE.Resources.Resource.Material</h5>
+                <p>@EXE.Resources.Resource.Material_content</p>
+            </div>
         </div>
-    </div>
-    <div class="card">
-        <div class="cardTittle">
-            <i class="uil uil-eye"></i>
-            <h5>Product</h5>
-            <p>Received product as desired</p>
+        <div class="card">
+            <div class="cardTittle">
+                <i class="uil uil-star"></i>
+                <h5>@EXE.Resources.Resource.Creative</h5>
+                <p>@EXE.Resources.Resource.Creative_content</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="cardTittle">
+                <i class="uil uil-eye"></i>
+                <h5>@EXE.Resources.Resource.Product_home</h5>
+                <p>@EXE.Resources.Resource.Product_content</p>
+            </div>
         </div>
     </div>
 </div>

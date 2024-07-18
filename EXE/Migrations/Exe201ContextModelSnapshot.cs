@@ -22,422 +22,212 @@ namespace EXE.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EXE.DataAccess.NumberOfPage", b =>
+            modelBuilder.Entity("EXE.DataAccess.Material", b =>
                 {
-                    b.Property<int>("NumberId")
-                        .HasColumnType("int")
-                        .HasColumnName("numberID");
+                    b.Property<int>("MaterialID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("description");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaterialID"));
 
-                    b.Property<decimal?>("Money")
-                        .HasColumnType("money")
-                        .HasColumnName("money");
+                    b.Property<int?>("NumberOfPage")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("Number")
-                        .HasColumnType("int")
-                        .HasColumnName("number");
+                    b.Property<string>("PaperName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("NumberId");
+                    b.Property<double?>("Price")
+                        .HasColumnType("float");
 
-                    b.ToTable("NumberOfPage", (string)null);
+                    b.Property<string>("Size")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SpringName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MaterialID");
+
+                    b.ToTable("Materials");
                 });
 
-            modelBuilder.Entity("EXE.DataAccess.Paper", b =>
+            modelBuilder.Entity("EXE.DataAccess.Order", b =>
                 {
-                    b.Property<int>("PaperId")
+                    b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("paper_id");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaperId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("image");
+                    b.Property<int?>("ProjectID")
+                        .HasColumnType("int");
 
-                    b.Property<decimal?>("Money")
-                        .HasColumnType("money")
-                        .HasColumnName("money");
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                    b.Property<double?>("Total")
+                        .HasColumnType("float");
 
-                    b.HasKey("PaperId");
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
 
-                    b.ToTable("paper", (string)null);
-                });
+                    b.HasKey("OrderID");
 
-            modelBuilder.Entity("EXE.DataAccess.Payment", b =>
-                {
-                    b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("payment_id");
+                    b.HasIndex("UserID");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
-
-                    b.Property<decimal?>("Amount")
-                        .HasColumnType("money")
-                        .HasColumnName("amount");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<DateTime?>("PaymentDate")
-                        .HasColumnType("datetime")
-                        .HasColumnName("payment_date");
-
-                    b.Property<int?>("PaymentMethod")
-                        .HasColumnType("int")
-                        .HasColumnName("payment_method");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("status");
-
-                    b.Property<string>("TransactionId")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("transaction_id");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex(new[] { "UserId" }, "IX_Payments_user_id");
-
-                    b.ToTable("Payments");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("EXE.DataAccess.Project", b =>
                 {
-                    b.Property<int>("ProjectId")
+                    b.Property<int>("ProjectID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("project_id");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectID"));
 
-                    b.Property<string>("Describe")
-                        .HasColumnType("text")
-                        .HasColumnName("describe");
+                    b.Property<string>("BookName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("image");
+                    b.Property<string>("ImageBack")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                    b.Property<string>("ImageFront")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("NumberId")
-                        .HasColumnType("int")
-                        .HasColumnName("numberID");
+                    b.Property<int?>("MaterialID")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("PaperId")
-                        .HasColumnType("int")
-                        .HasColumnName("paper_id");
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SizeId")
-                        .HasColumnType("int")
-                        .HasColumnName("Size_id");
+                    b.Property<int?>("UserID")
+                        .HasColumnType("int");
 
-                    b.Property<int?>("SpringId")
-                        .HasColumnType("int")
-                        .HasColumnName("spring_id");
+                    b.HasKey("ProjectID");
 
-                    b.Property<decimal?>("Total")
-                        .HasColumnType("money")
-                        .HasColumnName("total");
+                    b.HasIndex("MaterialID");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("ProjectId");
-
-                    b.HasIndex("NumberId");
-
-                    b.HasIndex(new[] { "SizeId" }, "IX_Projects_Size_id");
-
-                    b.HasIndex(new[] { "PaperId" }, "IX_Projects_paper_id");
-
-                    b.HasIndex(new[] { "SpringId" }, "IX_Projects_spring_id");
-
-                    b.HasIndex(new[] { "UserId" }, "IX_Projects_user_id");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("EXE.DataAccess.Size", b =>
+            modelBuilder.Entity("EXE.DataAccess.ProjectOrder", b =>
                 {
-                    b.Property<int>("SizeId")
+                    b.Property<int>("ProjectOrderID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("size_id");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SizeId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectOrderID"));
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                    b.Property<int?>("OrderID")
+                        .HasColumnType("int");
 
-                    b.Property<decimal?>("Money")
-                        .HasColumnType("money")
-                        .HasColumnName("money");
+                    b.Property<int?>("ProjectID")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
+                    b.HasKey("ProjectOrderID");
 
-                    b.Property<string>("Ratio")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("ratio");
+                    b.HasIndex("OrderID");
 
-                    b.HasKey("SizeId");
+                    b.HasIndex("ProjectID");
 
-                    b.ToTable("Size", (string)null);
-                });
-
-            modelBuilder.Entity("EXE.DataAccess.Spring", b =>
-                {
-                    b.Property<int>("SpringId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Spring_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpringId"));
-
-                    b.Property<string>("Color")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("color");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<decimal?>("Money")
-                        .HasColumnType("money")
-                        .HasColumnName("money");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("name");
-
-                    b.HasKey("SpringId");
-
-                    b.ToTable("spring", (string)null);
+                    b.ToTable("ProjectOrders");
                 });
 
             modelBuilder.Entity("EXE.DataAccess.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
                     b.Property<string>("Address")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("address");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Avatar")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("avatar");
-
-                    b.Property<string>("FacebookId")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("facebook_id");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gmail")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("gmail");
-
-                    b.Property<string>("GoogleId")
-                        .HasMaxLength(100)
-                        .HasColumnType("nchar(100)")
-                        .HasColumnName("google_id")
-                        .IsFixedLength();
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("password");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Role")
-                        .HasColumnType("int")
-                        .HasColumnName("role");
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserID");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EXE.DataAccess.UserSession", b =>
-                {
-                    b.Property<int>("SessionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("session_id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SessionId"));
-
-                    b.Property<string>("AccessToken")
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("access_token");
-
-                    b.Property<DateTime?>("ExpireTime")
-                        .HasColumnType("datetime")
-                        .HasColumnName("expire_time");
-
-                    b.Property<string>("Type")
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("type");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("SessionId");
-
-                    b.HasIndex(new[] { "UserId" }, "IX_User_Sessions_user_id");
-
-                    b.ToTable("User_Sessions", (string)null);
-                });
-
-            modelBuilder.Entity("EXE.DataAccess.Payment", b =>
+            modelBuilder.Entity("EXE.DataAccess.Order", b =>
                 {
                     b.HasOne("EXE.DataAccess.User", "User")
-                        .WithMany("Payments")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Payments_Users");
+                        .WithMany("Orders")
+                        .HasForeignKey("UserID");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("EXE.DataAccess.Project", b =>
                 {
-                    b.HasOne("EXE.DataAccess.NumberOfPage", "Number")
+                    b.HasOne("EXE.DataAccess.Material", "Material")
                         .WithMany("Projects")
-                        .HasForeignKey("NumberId")
-                        .HasConstraintName("FK_users_numberID");
-
-                    b.HasOne("EXE.DataAccess.Paper", "Paper")
-                        .WithMany("Projects")
-                        .HasForeignKey("PaperId")
-                        .HasConstraintName("FK_Projects_paper");
-
-                    b.HasOne("EXE.DataAccess.Size", "Size")
-                        .WithMany("Projects")
-                        .HasForeignKey("SizeId")
-                        .HasConstraintName("FK_Projects_Size");
-
-                    b.HasOne("EXE.DataAccess.Spring", "Spring")
-                        .WithMany("Projects")
-                        .HasForeignKey("SpringId")
-                        .HasConstraintName("FK_Projects_spring");
+                        .HasForeignKey("MaterialID");
 
                     b.HasOne("EXE.DataAccess.User", "User")
                         .WithMany("Projects")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_Projects_Users");
+                        .HasForeignKey("UserID");
 
-                    b.Navigation("Number");
-
-                    b.Navigation("Paper");
-
-                    b.Navigation("Size");
-
-                    b.Navigation("Spring");
+                    b.Navigation("Material");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EXE.DataAccess.UserSession", b =>
+            modelBuilder.Entity("EXE.DataAccess.ProjectOrder", b =>
                 {
-                    b.HasOne("EXE.DataAccess.User", "User")
-                        .WithMany("UserSessions")
-                        .HasForeignKey("UserId")
-                        .HasConstraintName("FK_User_Sessions_Users");
+                    b.HasOne("EXE.DataAccess.Order", "Order")
+                        .WithMany("ProjectOrders")
+                        .HasForeignKey("OrderID");
 
-                    b.Navigation("User");
+                    b.HasOne("EXE.DataAccess.Project", "Project")
+                        .WithMany("ProjectOrders")
+                        .HasForeignKey("ProjectID");
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("EXE.DataAccess.NumberOfPage", b =>
+            modelBuilder.Entity("EXE.DataAccess.Material", b =>
                 {
                     b.Navigation("Projects");
                 });
 
-            modelBuilder.Entity("EXE.DataAccess.Paper", b =>
+            modelBuilder.Entity("EXE.DataAccess.Order", b =>
                 {
-                    b.Navigation("Projects");
+                    b.Navigation("ProjectOrders");
                 });
 
-            modelBuilder.Entity("EXE.DataAccess.Size", b =>
+            modelBuilder.Entity("EXE.DataAccess.Project", b =>
                 {
-                    b.Navigation("Projects");
-                });
-
-            modelBuilder.Entity("EXE.DataAccess.Spring", b =>
-                {
-                    b.Navigation("Projects");
+                    b.Navigation("ProjectOrders");
                 });
 
             modelBuilder.Entity("EXE.DataAccess.User", b =>
                 {
-                    b.Navigation("Payments");
+                    b.Navigation("Orders");
 
                     b.Navigation("Projects");
-
-                    b.Navigation("UserSessions");
                 });
 #pragma warning restore 612, 618
         }

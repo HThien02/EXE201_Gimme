@@ -1,47 +1,5 @@
-﻿<div class="modelviewer-box">
-    <model-viewer id="viewer" camera-controls auto-rotate disable-zoom></model-viewer>
-</div>
-<button id="loadModelButton">Load 3D Model</button> <!-- Nút để tải mô hình 3D -->
+﻿@{
 
-<script type="module">
-    async function load3DModel() {
-        const modelViewer = document.getElementById('viewer');
-        await modelViewer.updateComplete;
+}
 
-        try {
-            // Import Three.js
-            const THREE = await import('/Scripts/three.module.js');
-
-            // Import GLTFLoader từ máy chủ của bạn
-            const GLTFLoader = await import('/Scripts/GLTFLoader.js');
-
-            const gltfPath = '/3Dfile/scene.gltf';
-            const gltfLoader = new GLTFLoader.GLTFLoader(); // Sử dụng GLTFLoader.GLTFLoader() để truy cập vào đối tượng GLTFLoader
-            const gltf = await gltfLoader.load(gltfPath);
-            const model = gltf.scene;
-
-            // Thay đổi vật liệu của mô hình
-            const textureLoader = new THREE.TextureLoader();
-            const texture = await textureLoader.loadAsync('/image/1/textures1.png');
-            model.traverse(function (node) {
-                if (node.isMesh) {
-                    node.material.map = texture;
-                    node.material.needsUpdate = true;
-                }
-            });
-
-            // Đặt mô hình vào model-viewer
-            modelViewer.setModel(model);
-
-            // Yêu cầu cập nhật lại model-viewer
-            modelViewer.requestUpdate();
-
-        } catch (error) {
-            console.error('Failed to load model:', error);
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('loadModelButton').addEventListener('click', load3DModel);
-    });
-</script>
+<button><a class="btnChoose" asp-action="Index" asp-controller="Cart">@EXE.Resources.Resource.Return</a></button>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EXE.Controllers
@@ -21,49 +22,138 @@ namespace EXE.Controllers
 
         public IActionResult Index()
         {
-            //if (HttpContext.Session.GetString("UserSessionID") != null)
-            //{
+            if (HttpContext.Session.GetString("UserSessionID") != null)
+            {
+                if (HttpContext.Session.GetString("ChooseError") != null)
+                {
+                    ViewData["ChooseError"] = "Error";
+                    HttpContext.Session.Remove("ChooseError");
+                    return View("/Views/Choose/Index.cshtml");
+                }
+                else
+                {
+                    ViewData["ChooseError"] = null; // Đảm bảo là ViewData["ChooseError"] được đặt trong mọi trường hợp
+                }
                 return View();
-            //}
-            //return RedirectToAction("Index", "Login");
+            }
+            return RedirectToAction("Index", "Login");
         }
 
+
         [HttpPost]
-        public IActionResult Choose([FromForm] int PaperType, [FromForm] int Size, [FromForm] int BookCuffColor, [FromForm] int NumberOfPages, [FromForm] string ImageFrontPath, [FromForm] string ImageBackPath)
+        public IActionResult Choose([FromForm] string PaperType, [FromForm] string Size, [FromForm] string BookCuffColor, [FromForm] int NumberOfPages, [FromForm] string NotebookName, [FromForm] string NotebookDescription, [FromForm] String action)
         {
             var userSessionID = HttpContext.Session.GetInt32("UserSessionID");
             if (userSessionID != null)
             {
-                var paperPrice = _exeContext.Papers.FirstOrDefault(p => p.PaperId == PaperType)?.Money ?? 0;
-                var sizePrice = _exeContext.Sizes.FirstOrDefault(s => s.SizeId == Size)?.Money ?? 0;
-                var numberPrice = _exeContext.NumberOfPages.FirstOrDefault(n => n.NumberId == NumberOfPages)?.Money ?? 0;
-                var cuffPrice = _exeContext.Springs.FirstOrDefault(s => s.SpringId == BookCuffColor)?.Money ?? 0;
-
-                var total = paperPrice + sizePrice + numberPrice + cuffPrice;
-                var project = new Project
+                if (!string.IsNullOrEmpty(PaperType) && !string.IsNullOrEmpty(Size) && !string.IsNullOrEmpty(BookCuffColor) && NumberOfPages != null)
                 {
-                    UserId = userSessionID.Value,
-                    PaperId = PaperType,
-                    SizeId = Size,
-                    SpringId = BookCuffColor,
-                    NumberId = NumberOfPages,
-                    Image = ImageFrontPath, // Thêm đường dẫn ảnh mặt trước vào project
-                    // Image = ImageBackPath, // Thêm đường dẫn ảnh mặt sau vào project
-                    Total = total,
-                    // Name = NotebookName, // Thêm tên sổ vào project
-                    // Describe = NotebookDescription // Thêm mô tả sổ vào project
-                };
+                    if ("design".Equals(action))
+                    {
+                        HttpContext.Session.SetString("PaperType", PaperType);
+                        HttpContext.Session.SetString("Size", Size);
+                        HttpContext.Session.SetString("BookCuffColor", BookCuffColor);
+                        HttpContext.Session.SetInt32("NumberOfPages", NumberOfPages);
+                        if (!String.IsNullOrEmpty(NotebookName))
+                        {
+                            HttpContext.Session.SetString("NotebookName", NotebookName);
+                        }
+                        if (!String.IsNullOrEmpty(NotebookDescription))
+                        {
+                            HttpContext.Session.SetString("NotebookDescription", NotebookDescription);
+                        }
 
-                _exeContext.Projects.Add(project);
-                _exeContext.SaveChanges();
+                        return RedirectToAction("Index", "Design");
+                    }
+                    else
+                    {
+                        // Lấy thông tin material từ cơ sở dữ liệu
+                        var material = _exeContext.Materials.FirstOrDefault(m => m.NumberOfPage == NumberOfPages && m.Size == Size && m.PaperName == PaperType);
+                        if (material == null)
+                        {
+                            return BadRequest("Material not found.");
+                        }
 
-                return RedirectToAction("Index", "Cart");
+                        var springColor = BookCuffColor;
+                        var imageFrontTempPath = HttpContext.Session.GetString("imageFrontPathTemp");
+                        var imageBackTempPath = HttpContext.Session.GetString("imageBackPathTemp");
+
+                        // Kiểm tra xem ảnh tạm thời đã được upload chưa
+                        if (string.IsNullOrEmpty(imageFrontTempPath) || string.IsNullOrEmpty(imageBackTempPath))
+                        {
+                            return BadRequest("Images not uploaded.");
+                        }
+
+                        // Tạo đối tượng project và lưu vào cơ sở dữ liệu
+                        var project = new Project
+                        {
+                            UserID = userSessionID,
+                            MaterialID = material.MaterialID,
+                            ImageFront = "",
+                            ImageBack = "",
+                            Note = NotebookDescription, // Gán mô tả của notebook từ form
+                            BookName = NotebookName
+                        };
+
+                        _exeContext.Projects.Add(project);
+                        _exeContext.SaveChanges();
+
+                        // Cập nhật đường dẫn ảnh với ProjectID
+                        string userFolder = Path.Combine(_hostingEnvironment.WebRootPath, "image", userSessionID.ToString(), project.ProjectID.ToString());
+                        if (!Directory.Exists(userFolder))
+                        {
+                            Directory.CreateDirectory(userFolder);
+                        }
+
+                        string fileNameFront = "textures1.png";
+                        string filePathFront = Path.Combine(userFolder, fileNameFront);
+                        if (System.IO.File.Exists(filePathFront))
+                        {
+                            System.IO.File.Delete(filePathFront);
+                        }
+                        System.IO.File.Move(imageFrontTempPath, filePathFront);
+
+                        string fileNameBack = "textures2.png";
+                        string filePathBack = Path.Combine(userFolder, fileNameBack);
+                        if (System.IO.File.Exists(filePathBack))
+                        {
+                            System.IO.File.Delete(filePathBack);
+                        }
+                        System.IO.File.Move(imageBackTempPath, filePathBack);
+
+                        // Cập nhật đường dẫn ảnh vào session và cơ sở dữ liệu
+                        string imagePathFront = $"/image/{userSessionID}/{project.ProjectID}/{fileNameFront}";
+                        string imagePathBack = $"/image/{userSessionID}/{project.ProjectID}/{fileNameBack}";
+                        HttpContext.Session.SetString("imageFrontPath", imagePathFront);
+                        HttpContext.Session.SetString("imageBackPath", imagePathBack);
+
+                        project.ImageFront = imagePathFront;
+                        project.ImageBack = imagePathBack;
+
+                        // Gán tên của notebook từ form
+                        project.Note = NotebookName;
+
+                        _exeContext.SaveChanges();
+
+                        // Sau khi thêm vào giỏ hàng, điều hướng người dùng đến trang Cart
+                        return RedirectToAction("Index", "Choose");
+
+                    }
+
+                }
+                else
+                {
+                    HttpContext.Session.SetString("ChooseError", "Error");
+                    return RedirectToAction("Index", "Choose");
+                }
+
             }
             else
             {
                 return RedirectToAction("Index", "Login");
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> UploadFrontImages(IFormFile image, [FromForm] string imageType)
@@ -78,30 +168,26 @@ namespace EXE.Controllers
             {
                 try
                 {
-                    // Tạo thư mục người dùng
-                    string userFolder = Path.Combine(_hostingEnvironment.WebRootPath, "image", userSessionID.ToString());
-                    if (!Directory.Exists(userFolder))
+                    // Tạo thư mục tạm thời nếu chưa tồn tại
+                    string tempFolder = Path.Combine(_hostingEnvironment.WebRootPath, "temp");
+                    if (!Directory.Exists(tempFolder))
                     {
-                        Directory.CreateDirectory(userFolder);
+                        Directory.CreateDirectory(tempFolder);
                     }
 
-                    string fileNameFront = "textures1.png";
-                    string filePathFront = Path.Combine(userFolder, fileNameFront);
+                    // Tạo tên tệp ảnh front tạm thời
+                    string fileNameFront = $"{Guid.NewGuid()}_textures1.png";
+                    string filePathFront = Path.Combine(tempFolder, fileNameFront);
 
-                    // Kiểm tra và xóa file cũ nếu đã tồn tại
-                    if (System.IO.File.Exists(filePathFront))
-                    {
-                        System.IO.File.Delete(filePathFront);
-                    }
-
+                    // Lưu ảnh front vào thư mục tạm thời
                     using (var stream = new FileStream(filePathFront, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
                     }
 
-                    string imagePath = $"/image/{userSessionID}/{fileNameFront}";
-
-                    return Ok(new { imagePath }); // Trả về imagePath
+                    // Lưu đường dẫn ảnh front tạm thời vào session
+                    HttpContext.Session.SetString("imageFrontPathTemp", filePathFront);
+                    return Ok(new { tempPath = filePathFront });
                 }
                 catch (Exception ex)
                 {
@@ -127,30 +213,26 @@ namespace EXE.Controllers
             {
                 try
                 {
-                    // Tạo thư mục người dùng
-                    string userFolder = Path.Combine(_hostingEnvironment.WebRootPath, "image", userSessionID.ToString());
-                    if (!Directory.Exists(userFolder))
+                    // Tạo thư mục tạm thời nếu chưa tồn tại
+                    string tempFolder = Path.Combine(_hostingEnvironment.WebRootPath, "temp");
+                    if (!Directory.Exists(tempFolder))
                     {
-                        Directory.CreateDirectory(userFolder);
+                        Directory.CreateDirectory(tempFolder);
                     }
 
-                    string fileNameBack = "textures2.png";
-                    string filePathBack = Path.Combine(userFolder, fileNameBack);
+                    // Tạo tên tệp ảnh back tạm thời
+                    string fileNameBack = $"{Guid.NewGuid()}_textures2.png";
+                    string filePathBack = Path.Combine(tempFolder, fileNameBack);
 
-                    // Kiểm tra và xóa file cũ nếu đã tồn tại
-                    if (System.IO.File.Exists(filePathBack))
-                    {
-                        System.IO.File.Delete(filePathBack);
-                    }
-
+                    // Lưu ảnh back vào thư mục tạm thời
                     using (var stream = new FileStream(filePathBack, FileMode.Create))
                     {
                         await image.CopyToAsync(stream);
                     }
 
-                    string imagePath = $"/image/{userSessionID}/{fileNameBack}";
-
-                    return Ok(new { imagePath }); // Trả về imagePath
+                    // Lưu đường dẫn ảnh back tạm thời vào session
+                    HttpContext.Session.SetString("imageBackPathTemp", filePathBack);
+                    return Ok(new { tempPath = filePathBack });
                 }
                 catch (Exception ex)
                 {

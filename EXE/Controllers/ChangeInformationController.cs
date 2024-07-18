@@ -21,14 +21,14 @@ namespace EXE.Controllers
         }
         public IActionResult Index()
         {
-        var sessionUser = HttpContext.Session.GetInt32("UserSessionID");
+            var sessionUser = HttpContext.Session.GetInt32("UserSessionID");
 
             if (sessionUser != null)
             {
-                var user = _context.Users.FirstOrDefault(u => u.UserId == sessionUser);
+                var user = _context.Users.FirstOrDefault(u => u.UserID == sessionUser);
                 if (user != null)
                 {
-                    TempData["UserUsername"] = user.Username;
+                    TempData["UserUsername"] = user.UserName;
                     TempData["UserPassword"] = user.Password;
                     TempData["UserGmail"] = user.Gmail;
                     return View("/Views/Login/Information.cshtml");
@@ -60,9 +60,11 @@ namespace EXE.Controllers
         //}
 
         [HttpPost]
-        public IActionResult Index(User user) {
-            if (HttpContext.Session.GetInt32("UserSessionID") != null) {
-                TempData["UserUsername"] = user.Username;
+        public IActionResult Index(User user)
+        {
+            if (HttpContext.Session.GetInt32("UserSessionID") != null)
+            {
+                TempData["UserUsername"] = user.UserName;
                 TempData["UserPassword"] = user.Password;
                 TempData["UserGmail"] = user.Gmail;
 
@@ -87,7 +89,7 @@ namespace EXE.Controllers
             if (OTP == sessionOTP.ToString())
             {
                 var sessionUserID = HttpContext.Session.GetInt32("UserSessionID");
-                var user = _context.Users.FirstOrDefault(u => u.UserId == sessionUserID);
+                var user = _context.Users.FirstOrDefault(u => u.UserID == sessionUserID);
                 string hashedPassword = HashPassword(password);
                 if (user != null)
                 {

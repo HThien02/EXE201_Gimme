@@ -1,16 +1,17 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿@using EXE.DataAccess
+@using Microsoft.AspNetCore.Http;
 
 @model List<EXE.DataAccess.Project>
-
-
+@inject Exe201Context _exe201context
 @{
     var addressString = ViewData["AddressString"] as string; //CartController
     decimal totalPrice = 0;
     int pageSize = 5; // Số lượng sản phẩm trên mỗi trang
     var userSessionID = Context.Session.GetInt32("UserSessionID");
+    var alert = ViewData["alert"] as string;
 
     // Lọc các mục trong Model để chỉ bao gồm các mục có UserSessionID
-    var filteredModel = Model.Where(p => p.UserId == userSessionID).ToList();
+    var filteredModel = Model.Where(p => p.UserID == userSessionID).ToList();
     int pageCount = (int)Math.Ceiling((double)filteredModel.Count / pageSize); // Số lượng trang
 }
 
@@ -18,7 +19,7 @@
     <button class="btnReturn">
         <a asp-controller="Choose" asp-action="Index">
             <span>
-                <
+                &lt;
             </span> @EXE.Resources.Resource.Return
         </a>
     </button>
@@ -28,46 +29,41 @@
     <h3>@EXE.Resources.Resource.Cart</h3>
     <p>@EXE.Resources.Resource.Youhave @filteredModel.Count @EXE.Resources.Resource.Product</p>
 </div>
-<div class="row">
+<div class="row rowCart">
     <div class="productlist col-lg-6">
         @for (int i = 0; i < pageCount; i++)
         {
             <div class="product-page @(i > 0 ? "d-none" : "")" id="page-@i">
                 @foreach (var project in filteredModel.Skip(i * pageSize).Take(pageSize))
                 {
-                    decimal productPrice = 0;
-
-                    // Tính tổng giá của từng sản phẩm dựa trên các chi tiết của nó
-                    if (project.Paper != null && project.Size != null && project.Spring != null && project.Number != null)
-                    {
-                        // Check if the nullable decimals are not null, then sum their values
-                        if (project.Paper.Money.HasValue && project.Size.Money.HasValue && project.Spring.Money.HasValue && project.Number.Money.HasValue)
-                        {
-                            productPrice = project.Paper.Money.Value + project.Size.Money.Value + project.Spring.Money.Value + project.Number.Money.Value;
-                        }
-                    }
-
-                    // Thêm giá của sản phẩm này vào tổng giá của toàn bộ giỏ hàng
-                    totalPrice += productPrice;
-
                     <div class="product-card">
                         <div class="product-image">
-                            <img class="productimg" src="@project.Image" alt="Sổ của Gimme">
+                            <img class="productimg" src="@project.ImageFront" alt="Sổ của Gimme">
                         </div>
                         <div class="product-info">
-                            <h3 class="product-name">Số của Gimme</h3>
+                            <h3 class="product-name">@project.BookName</h3>
                             <p class="product-detail"></p>
                             @* <p class="product-detail">@project.Paper.Name, @project.Size.Name, @project.Spring.Name, @project.Number.Number</p> *@
                         </div>
                         <div class="product-price">
                             <p class="number">1</p>
-                            <p class="price">@productPrice VNĐ</p>
-                            <p>VNĐ</p>
+                            <p class="price">
+                                @if (project.Material != null)
+                                {
+                                    @((decimal)project.Material.Price)
+                                    // Chuyển đổi giá trị từ double sang decimal
+                                    totalPrice += (decimal)project.Material.Price; // Cộng giá vật liệu vào totalPrice
+                                }
+                                VNĐ
+                            </p>
+                            <p><a class="btnDeleteProduct" asp-route-id="@project.ProjectID" asp-action="DeleteProduct" asp-controller="Cart">Delete</a></p>
+                            <p><a class="btnDeleteProduct" asp-route-id="@project.ProjectID" asp-action="Index" asp-controller="Demo3D">Demo</a></p>
                         </div>
                     </div>
                 }
             </div>
         }
+
         <div class="pagination">
             @for (int i = 0; i < pageCount; i++)
             {
@@ -83,7 +79,6 @@
 
     <div class="col-lg-6">
         <div class="orderTitle">
-            <p class="order">@EXE.Resources.Resource.Order #123</p>
             <h3>@EXE.Resources.Resource.Total: @totalPrice VNĐ</h3>
         </div>
         <div class="paymentMethod">
@@ -96,58 +91,48 @@
                 <button class="btnInputAddress"><a asp-action="InputAddress" asp-controller="Cart">@EXE.Resources.Resource.InputAddress</a></button>
                 <span>@EXE.Resources.Resource.YourAddres!</span>
             </div>
-            <div class="form-check mt-3">
-                <input class="form-check-input" type="radio" id="option2" name="singleChoice" value="Option 2">
-                <label class="form-check-label" for="option2">@EXE.Resources.Resource.CreditCard</label>
-            </div>
         </div>
+
         <div class="addressTitle">
             <h5>@EXE.Resources.Resource.Address</h5>
-            <p id="userAddress"><a asp-action="InputAddress" asp-controller="Cart">@addressString</a></p>
+            @if (userSessionID != null)
+            {
+                var user = _exe201context.Users.FirstOrDefault(u => u.UserID == userSessionID);
+                <p id="userAddress"><a asp-action="InputAddress" asp-controller="Cart">@user.Address</a></p>
+            }
             <h5><a asp-action="InputAddress" asp-controller="Cart">@EXE.Resources.Resource.ChangeAddress -></a></h5>
         </div>
     </div>
 </div>
 
 <div class="payBtn">
-    <button class="btnPay">
-        Pay
-    </button>
+    <form asp-controller="Cart" asp-action="AddProductToPayment" method="post">
+        <input type="hidden" name="id" value="@userSessionID" />
+        <button style="text-align: center;" type="submit" class="btnPay">@EXE.Resources.Resource.Pay</button>
+        <p class="alert" style="color: red; text-align: center;">Hiện tại chức năng thanh toán chưa hoàn thiện, vui lòng thử lại sau!</p>
+    </form>
 </div>
+
 
 @section Scripts {
     <script>
         const userSessionID = '@userSessionID';
 
         function checkAddress() {
-            fetch(`/api/Address/getAddress?userSessionID=${userSessionID}`)
-                .then(response => response.json())
-                .then(data => {
-                    var enterAddressContainer = document.getElementById('enterAddressContainer');
-                    var userAddress = document.getElementById('userAddress');
+            var userAddress = document.getElementById('userAddress');
 
-                    if (!userAddress.textContent.trim()) {
-                        enterAddressContainer.style.display = 'block';
-                        userAddress.innerHTML = '<a href="#" style="color: red;">Địa chỉ của bạn đang trống!</a>';
-                    } else {
-                        if (data.address) {
-                            enterAddressContainer.style.display = 'none';
-                            userAddress.innerHTML = `<a href="#">${data.address}</a>`;
-                        } 
-                        else {
-                            enterAddressContainer.style.display = 'block';
-                            userAddress.innerHTML = '<a href="#" style="color: red;">Địa chỉ của bạn đang trống!</a>';
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching address:', error);
-                    document.getElementById('enterAddressContainer').style.display = 'block';
-                });
+            if (!userAddress.textContent.trim()) {
+                document.getElementById('enterAddressContainer').style.display = 'block';
+                userAddress.innerHTML = '<a href="#" style="color: red;">Địa chỉ của bạn đang trống!</a>';
+            } else {
+                document.getElementById('enterAddressContainer').style.display = 'none';
+            }
         }
 
-        document.getElementById('option1').addEventListener('change', checkAddress);
-        document.getElementById('option2').addEventListener('change', checkAddress);
+        document.getElementById('option1').addEventListener('change', function () {
+            // Gọi hàm checkAddress khi option 1 được chọn
+            checkAddress();
+        });
 
         function showPage(page) {
             const pages = document.querySelectorAll('.product-page');
@@ -167,5 +152,14 @@
             });
         }
 
+        document.addEventListener('DOMContentLoaded', function () {
+            var alertMessage = '@alert';
+
+            if (alertMessage) {
+                alert(alertMessage); // Hiển thị thông báo alert
+            }
+
+            checkAddressAndToggle(); // Kiểm tra và cập nhật trạng thái của địa chỉ khi tài liệu được tải
+        });
     </script>
 }

@@ -32,6 +32,7 @@
     <Folder Include="IRepository\" />
     <Folder Include="Repository\" />
     <Folder Include="3Dfile\" />
+    <Folder Include="wwwroot\temp\" />
   </ItemGroup>
 
   <ItemGroup>

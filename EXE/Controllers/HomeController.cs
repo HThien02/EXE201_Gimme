@@ -17,11 +17,8 @@ namespace EXE.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
+            ViewBag.NavbarColor = "navbar-home";
+            ViewBag.FooterColor = "footer-home";
             return View();
         }
 
@@ -37,7 +34,8 @@ namespace EXE.Controllers
             {
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(lang);
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(lang);
-            } else
+            }
+            else
             {
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("vn");
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo("vn");

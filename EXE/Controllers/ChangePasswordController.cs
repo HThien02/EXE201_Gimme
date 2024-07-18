@@ -34,7 +34,7 @@ namespace EXE.Controllers
             var userSessionID = HttpContext.Session.GetInt32("UserSessionID");
             if (userSessionID != null) //Nếu không có sesstion => chuyển sang login
             {
-                var userID = _context.Users.FirstOrDefault(u => u.UserId == userSessionID);
+                var userID = _context.Users.FirstOrDefault(u => u.UserID == userSessionID);
                 if (userID != null)
                 {
                     var hashedPassword = HashPassword(oldPassword);
@@ -74,7 +74,7 @@ namespace EXE.Controllers
             {
                 var newPassword = HttpContext.Session.GetString("newPassword");
                 var sessionUserID = HttpContext.Session.GetInt32("UserSessionID");
-                var user = _context.Users.FirstOrDefault(u => u.UserId == sessionUserID);
+                var user = _context.Users.FirstOrDefault(u => u.UserID == sessionUserID);
                 string hashedPassword = HashPassword(newPassword);
                 if (user != null)
                 {

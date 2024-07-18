@@ -43,15 +43,10 @@ namespace EXE.Controllers
                 return BadRequest("User object is null.");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return View(user);
-            }
-
             // Mã hóa mật khẩu người dùng nhập vào
             string hashedPassword = HashPassword(user.Password);
 
-            var myUser = _context.Users.FirstOrDefault(x => x.Username == user.Username && x.Password == hashedPassword);
+            var myUser = _context.Users.FirstOrDefault(x => x.UserName == user.UserName && x.Password == hashedPassword);
 
             if (myUser != null)
             {
@@ -66,18 +61,18 @@ namespace EXE.Controllers
                     avatarData = new byte[0];
                 }
 
-                HttpContext.Session.SetInt32("UserSessionID", myUser.UserId);
-                HttpContext.Session.SetString("UserSessionUsername", myUser.Username);
+                HttpContext.Session.SetInt32("UserSessionID", myUser.UserID);
+                HttpContext.Session.SetString("UserSessionUsername", myUser.UserName);
                 HttpContext.Session.SetString("UserSessionPass", myUser.Password);
                 HttpContext.Session.Set("UserSessionAva", avatarData);
 
                 return RedirectToAction("Index", "Home");
             }
-                else
-                {
-                    TempData["LoginStatus"] = "LoginFailed";
-                    return View("/Views/Login/Index.cshtml");
-                }
+            else
+            {
+                TempData["LoginStatus"] = "LoginFailed";
+                return View("/Views/Login/Index.cshtml");
+            }
         }
 
         private string HashPassword(string password)
@@ -157,7 +152,7 @@ namespace EXE.Controllers
 
             if (sessionOtp.HasValue && sessionOtp.Value.ToString() == otp)
             {
-                var user = _context.Users.FirstOrDefault(u => u.UserId == sessionUserID);
+                var user = _context.Users.FirstOrDefault(u => u.UserID == sessionUserID);
                 user.Password = password;
 
                 _context.SaveChanges();

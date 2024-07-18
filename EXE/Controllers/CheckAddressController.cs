@@ -19,7 +19,7 @@ namespace YourNamespace.Controllers
         [HttpGet("getAddress")]
         public async Task<IActionResult> GetAddress(int userSessionID)
         {
-            var user = await _exeContext.Users.FirstOrDefaultAsync(u => u.UserId == userSessionID);
+            var user = await _exeContext.Users.FirstOrDefaultAsync(u => u.UserID == userSessionID);
 
             if (user == null)
             {

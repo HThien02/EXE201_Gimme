@@ -1,37 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace EXE.DataAccess;
-
-public partial class Project
+namespace EXE.DataAccess
 {
-    public int ProjectId { get; set; }
+    public partial class Project
+    {
+        [Key]
+        public int ProjectID { get; set; }
 
-    public int? UserId { get; set; }
+        public int? UserID { get; set; }
 
-    public string? Name { get; set; }
+        public int? MaterialID { get; set; }
 
-    public string? Describe { get; set; }
+        public string? ImageFront { get; set; }
 
-    public string? Image { get; set; }
+        public string? ImageBack { get; set; }
 
-    public int? SizeId { get; set; }
+        public string? Note { get; set; }
+        
+        public string? BookName { get; set; }
 
-    public int? PaperId { get; set; }
+        public virtual User User { get; set; }
 
-    public int? SpringId { get; set; }
+        public virtual Material Material { get; set; }
 
-    public decimal? Total { get; set; }
-
-    public int? NumberId { get; set; }
-
-    public virtual NumberOfPage? Number { get; set; }
-
-    public virtual Paper? Paper { get; set; }
-
-    public virtual Size? Size { get; set; }
-
-    public virtual Spring? Spring { get; set; }
-
-    public virtual User? User { get; set; }
+        public virtual ICollection<ProjectOrder> ProjectOrders { get; set; }
+    }
 }

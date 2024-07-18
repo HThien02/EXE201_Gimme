@@ -23,7 +23,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddDbContext<Exe201Context>(options =>
-    {
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("MyStockDB"));
 });
 
@@ -44,7 +44,8 @@ app.Use(async (context, next) =>
     {
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(cookie);
         System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(cookie);
-    } else
+    }
+    else
     {
         System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en");
         System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");

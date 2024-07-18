@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace EXE.DataAccess;
-
-public partial class User
+namespace EXE.DataAccess
 {
-    public int UserId { get; set; }
+    public partial class User
+    {
+        [Key]
+        public int UserID { get; set; }
 
-    public string? Username { get; set; }
+        public string? UserName { get; set; }
 
-    public string? Password { get; set; }
+        public string? Password { get; set; }
 
-    public string? Avatar { get; set; }
+        public string? Avatar { get; set; }
 
-    public string? FacebookId { get; set; }
+        public string? Role { get; set; }
 
-    public string? GoogleId { get; set; }
+        public string? Gmail { get; set; }
 
-    public int? Role { get; set; }
+        public string? Address { get; set; }
 
-    public string? Address { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
 
-    public string? Gmail { get; set; }
-
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
-
-    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
-
-    public virtual ICollection<UserSession> UserSessions { get; set; } = new List<UserSession>();
+        public virtual ICollection<Order> Orders { get; set; }
+    }
 }

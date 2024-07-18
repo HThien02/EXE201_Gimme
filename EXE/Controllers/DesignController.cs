@@ -6,7 +6,12 @@ namespace EXE.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var userSessionID = HttpContext.Session.GetInt32("UserSessionID");
+            if (userSessionID != null)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Login");
         }
     }
 }

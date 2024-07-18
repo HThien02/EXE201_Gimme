@@ -61,6 +61,15 @@ namespace EXE.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Thêm.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Địa chỉ.
         /// </summary>
         public static string Address {
@@ -124,6 +133,15 @@ namespace EXE.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bạn chưa chọn đầy đủ vật liệu!.
+        /// </summary>
+        public static string ChooseError {
+            get {
+                return ResourceManager.GetString("ChooseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Chọn chất liệu.
         /// </summary>
         public static string ChooseItem {
@@ -156,6 +174,24 @@ namespace EXE.Resources {
         public static string ConfirmNewPassword {
             get {
                 return ResourceManager.GetString("ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tầm nhìn.
+        /// </summary>
+        public static string Creative {
+            get {
+                return ResourceManager.GetString("Creative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tạo ra một cộng đồng sáng tạo có ý nghĩa, nơi mọi người có thể thể hiện bản thân và phát triển tiềm năng của mình thông qua việc sử dụng các sản phẩm sổ tay do chúng tôi tự thiết kế..
+        /// </summary>
+        public static string Creative_content {
+            get {
+                return ResourceManager.GetString("Creative_content", resourceCulture);
             }
         }
         
@@ -313,6 +349,33 @@ namespace EXE.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mã OTP đã được gửi về email của bạn, hãy check Email!.
+        /// </summary>
+        public static string MaOTP {
+            get {
+                return ResourceManager.GetString("MaOTP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sứ mệnh.
+        /// </summary>
+        public static string Material {
+            get {
+                return ResourceManager.GetString("Material", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hỗ trợ và truyền cảm hứng cho mọi người trong việc tạo ra sản phẩm sổ tay tự thiết kế độc đáo và mang tính cá nhân..
+        /// </summary>
+        public static string Material_content {
+            get {
+                return ResourceManager.GetString("Material_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tên cuốn sổ.
         /// </summary>
         public static string NameOfNote {
@@ -421,7 +484,7 @@ namespace EXE.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Thanh toán khi nhận hàng.
+        ///   Looks up a localized string similar to Quét mã QR.
         /// </summary>
         public static string PaymentOn {
             get {
@@ -435,6 +498,24 @@ namespace EXE.Resources {
         public static string Product {
             get {
                 return ResourceManager.GetString("Product", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nhận được sản phẩm như mong muốn!.
+        /// </summary>
+        public static string Product_content {
+            get {
+                return ResourceManager.GetString("Product_content", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cá nhân hóa, sáng tạo, thực tế, bền vững.
+        /// </summary>
+        public static string Product_home {
+            get {
+                return ResourceManager.GetString("Product_home", resourceCulture);
             }
         }
         
@@ -475,7 +556,7 @@ namespace EXE.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dịch vụ.
+        ///   Looks up a localized string similar to Hướng dẫn.
         /// </summary>
         public static string Service {
             get {
